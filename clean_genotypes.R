@@ -24,7 +24,7 @@
 library(qtl2convert)
 library(tidyverse)
 library(data.table)
-library(argyle)
+library(argyle)     # Github package
 
 
 
@@ -142,8 +142,10 @@ genoprobs_name_df <- genoprobs_name_df %>% filter(keep) %>% select(-Extra1, -Ext
 ### Change the genoprobs name: DO name and marker ID
 for(i in 1:length(pomp_genoprobs)){
     pomp_genoprobs[[i]] <- pomp_genoprobs[[i]][keep,,]
-    dimnames(pomp_genoprobs[[i]])[[1]] <- genoprobs_name_df$Final.Name[match(dimnames(pomp_genoprobs[[i]])[[1]], genoprobs_name_df$Original.Name)]
-    dimnames(pomp_genoprobs[[i]])[[3]] <- pomp_markers$marker[match(dimnames(pomp_genoprobs[[i]])[[3]], pomp_markers$orig.name)]
+    dimnames(pomp_genoprobs[[i]])[[1]] <- genoprobs_name_df$Final.Name[match(dimnames(pomp_genoprobs[[i]])[[1]], 
+                                                                             genoprobs_name_df$Original.Name)]
+    dimnames(pomp_genoprobs[[i]])[[3]] <- pomp_markers$marker[match(dimnames(pomp_genoprobs[[i]])[[3]], 
+                                                                    pomp_markers$orig.name)]
 }
 
 
