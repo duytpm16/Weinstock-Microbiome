@@ -1,4 +1,4 @@
-### This script reads in the required input data file generated from gather_qtl2_scan1_input_data.R
+### This script reads in the required input data file generated from gather_microbiome_qtl2_input.R
 #       to run the qtl2 scan1 function.
 #
 #
