@@ -3,7 +3,7 @@
 #
 #
 ### Input:
-#       1: input.file:    Path + prefix to the qtl2 input data generated from gather_qtl2_scan1_input_data.R
+#       1: input.file:    Path + prefix to the qtl2 input data generated from gather_microbiome_qtl2_input.R
 #       2: taxa:          Which taxa to run qtl scan on
 #       3: num_cores:     Number of cores to run
 #       4: should_rankz:  Logical value to use the rankz dataset instead of normalized
