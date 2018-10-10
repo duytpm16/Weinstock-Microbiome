@@ -30,13 +30,11 @@ library(qtl2)
 
 
 ### Command line arguments / Variables to change
-# 1: input.file:    Path + prefix to the qtl2 input data generated from gather_qtl2_scan1_input_data.R
-# 2: num_cores:     Number of cores to run
-# 3: should_rankz:  Logical value to use the rankz dataset instead of normalized
-# 4: use_chunks:    Logical value to run QTL scans in chunks
-# 5: use_int:       Logical value to use an interaction term
-# 6: chunk_number:  Numeric value of the chunk number. Not needed if use_chunks is FALSE
-# 8: int_name:      Name of the interaction term. Not needed if use_int is FALSE
+# 1: input.file:    Path + prefix to the qtl2 input data generated from gather_microbiome_qtl2_input.R
+# 2: taxa:          Which taxa to run qtl2 scan1 function on 
+# 3: num_cores:     Number of cores to run
+# 4: should_rankz:  Logical value to use the rankz dataset instead of normalized
+
 args = commandArgs(trailingOnly = TRUE)
 
 load(paste0(args[1],"_qtl2_input.RData"))
