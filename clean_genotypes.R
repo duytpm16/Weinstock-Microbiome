@@ -68,7 +68,7 @@ pomp_maps <- map_df_to_list(pomp_markers, pos_column = 'pos', marker_column = 'm
 
 
 
-### Checking for duplicates names. Names are generally structured as DPDP.DO[1/2].ID.sex. There are some with extended info after sex. These are
+### Checking for duplicate names. Names are generally structured as DPDP.DO[1/2].ID.sex. There are some with extended info after sex. These are
 #     dupliated ones.
 #
 #         Length of genoprobs list: 20
