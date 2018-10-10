@@ -18,11 +18,10 @@
 ####################################################################################################################
 
 
-
 ### Install required library packages
 # install.packages(c("devtools", "yaml", "jsonlite", "data.table", "RcppEigen", "RSQLite", "qtl", "dplyr))
 # library(devtools)
-# install_github("rqtl/qtl2", "rqtl/qtl2convert")
+# install_github("rqtl/qtl2", "rqtl/qtl2")
 
 options(stringsAsFactors = FALSE)
 
@@ -32,15 +31,18 @@ library(qtl2)
 
 ### Command line arguments / Variables to change
 # 1: input.file:    Path + prefix to the qtl2 input data generated from gather_qtl2_scan1_input_data.R
-# 2: taxa:          Which taxa to run the qtl2 scan1 function on
-# 3: num_cores:     Number of cores to run
-# 4: should_rankz:  Logical value to use the rankz dataset instead of normalized
+# 2: num_cores:     Number of cores to run
+# 3: should_rankz:  Logical value to use the rankz dataset instead of normalized
+# 4: use_chunks:    Logical value to run QTL scans in chunks
+# 5: use_int:       Logical value to use an interaction term
+# 6: chunk_number:  Numeric value of the chunk number. Not needed if use_chunks is FALSE
+# 8: int_name:      Name of the interaction term. Not needed if use_int is FALSE
 args = commandArgs(trailingOnly = TRUE)
 
 load(paste0(args[1],"_qtl2_input.RData"))
-taxa <- args[3]
-num_cores <- as.numeric(args[2])
-should_rankz <- as.logical(args[3])
+taxa <- args[2]
+num_cores <- as.numeric(args[3])
+should_rankz <- as.logical(args[4])
 
 
 
@@ -86,23 +88,19 @@ qtl_w17 <- scan1(genoprobs = genoprobs,
 qtl_w24 <- scan1(genoprobs = genoprobs, 
                 pheno = w24,
                 kinship = K, 
-                addcovar = covar_w,
+                addcovar = covar_w24,
                 intcovar = NULL, 
                 cores = num_cores)
 
 
 
-### Stor qtl output as list for each week and save to global environment
-assign(x = paste0(taxa,'_qtl'),
-       value = list(w6 = qtl_w6, w17 = qtl_w17, w24 = qtl_w24), 
-       envir = .GlobalEnv)
-
+qtl_list <- list(w6 = qtl_w6, w17 = qtl_w17, w24 = qtl_w24)
 
 
   
 # Save output of scan1 to current directory
 if(should_rankz){
-   saveRDS(get(paste0(taxa,'_qtl')), file = paste0(args[1], "_rZ_qtl_lod.RData"))
+   saveRDS(qtl_list, file = paste0(args[1], '_',taxa,"_rZ_qtl_lod.rds"))
 }else{
-   saveRDS(get(paste0(taxa,'_qtl')), file = paste0(args[1], "_norm_qtl_lod.RData"))
+   saveRDS(qtl_List, file = paste0(args[1], '_',taxa,"_norm_qtl_lod.rds"))
 }
