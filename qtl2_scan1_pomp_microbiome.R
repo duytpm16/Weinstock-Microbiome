@@ -67,8 +67,6 @@ if(should_rankz){
 
 
 ### Running QTL2 scan1 function
-
-
 qtl_w6 <- scan1(genoprobs = genoprobs, 
                 pheno = w6,
                 kinship = K, 
