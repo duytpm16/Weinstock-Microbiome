@@ -87,7 +87,7 @@ qtl_w17 <- scan1(genoprobs = genoprobs,
 qtl_w24 <- scan1(genoprobs = genoprobs, 
                 pheno = expr,
                 kinship = K, 
-                addcovar = covar_w6,
+                addcovar = covar_w24,
                 intcovar = NULL, 
                 cores = num_cores)
 
