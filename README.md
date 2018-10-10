@@ -4,4 +4,4 @@
 
 
 
-Currently contains scripts for preliminary QTL analysis. Expected to change.
+Currently contains scripts for preliminary QTL analysis. 
