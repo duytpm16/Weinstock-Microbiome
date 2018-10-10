@@ -10,10 +10,10 @@
 
 #
 ### Output: 
-#       1: Matrix containing LOD scoress for each of the phenotype that was given to scan1 at each marker.
+#       1: List containing matrices of LOD scores for each week of a given taxa.
 #
-### Author: Duy Pham, 'phenotype range run' was taken from Dan Gatti
-### Date:   July 10, 2018
+### Author: Duy Pham
+### Date:   October 10, 2018
 ### E-mail: duy.pham@jax.org
 ####################################################################################################################
 
@@ -21,7 +21,7 @@
 ### Install required library packages
 # install.packages(c("devtools", "yaml", "jsonlite", "data.table", "RcppEigen", "RSQLite", "qtl", "dplyr))
 # library(devtools)
-# install_github("rqtl/qtl2", "rqtl/qtl2")
+# install_github("rqtl/qtl2")
 
 options(stringsAsFactors = FALSE)
 
