@@ -17,14 +17,19 @@ load("~/Desktop/weinstock_16s_microbiome_qtl2_input.RData")
 
 
 
-
+### Function to create lod peaks table with BLUP scans
 findpeaks_table <- function(expr, covar, genoprobs, kinship, qtl_output, map, threshold){
   
+  
+  
+      # QTL2 find_peaks function
       lod.peaks <- find_peaks(qtl_output, map = map, threshold = threshold)
       
       
+  
+  
       
-      ### Changing colnames of find_peaks output
+      # Changing colnames of find_peaks output
       marker.id <- paste0(as.character(lod.peaks$chr), '_', round(lod.peaks$pos * 1000000))
       annot.id <- lod.peaks[,'lodcolumn']
       lod.peaks <- cbind(annot.id, marker.id, lod.peaks[,c('lod','chr','pos')])
@@ -32,8 +37,10 @@ findpeaks_table <- function(expr, covar, genoprobs, kinship, qtl_output, map, th
       lod.peaks$qtl.chr <- as.character(lod.peaks$qtl.chr)
       
       
+  
+  
       
-      ### BLUP scan
+      # BLUP scan
       lod.peaks = cbind(lod.peaks, matrix(0, nrow = nrow(lod.peaks), ncol = 8, 
                                           dimnames = list(NULL, LETTERS[1:8])))
       for(i in 1:nrow(lod.peaks)) {
@@ -62,21 +69,25 @@ findpeaks_table <- function(expr, covar, genoprobs, kinship, qtl_output, map, th
 
 
 
+
+
+
+
 ### Get all taxa qtl scans and add a lod peaks dataframe where peaks are > 6 for each week.
 for(i in ls()[grep('qtl',ls())]){
     temp <- get(i)
 
-    temp[["peaks_w6"]] <- findpeaks(expr = get(paste0('rZ_', gsub('_qtl', '_w6',  i))), 
-                                    qtl_output = temp$w6, covar = covar_w6, genoprobs = genoprobs, 
-                                    kinship = K, map = map, threshold = 6)
+    temp[["peaks_w6"]] <- findpeaks_table(expr = get(paste0('rZ_', gsub('_qtl', '_w6',  i))), 
+                                          qtl_output = temp$w6, covar = covar_w6, genoprobs = genoprobs, 
+                                          kinship = K, map = map, threshold = 6)
     
-    temp[["peaks_w17"]] <- findpeaks(expr = get(paste0('rZ_', gsub('_qtl', '_w17',  i))), 
-                                      qtl_output = temp$w17, covar = covar_w17, genoprobs = genoprobs, 
-                                      kinship = K, map = map, threshold = 6)
+    temp[["peaks_w17"]] <- findpeaks_table(expr = get(paste0('rZ_', gsub('_qtl', '_w17',  i))), 
+                                           qtl_output = temp$w17, covar = covar_w17, genoprobs = genoprobs, 
+                                           kinship = K, map = map, threshold = 6)
     
-    temp[["peaks_w24"]] <- findpeaks(expr = get(paste0('rZ_', gsub('_qtl', '_w24',  i))), 
-                                      qtl_output = temp$w24, covar = covar_w24, genoprobs = genoprobs, 
-                                      kinship = K, map = map, threshold = 6)
+    temp[["peaks_w24"]] <- findpeaks_table(expr = get(paste0('rZ_', gsub('_qtl', '_w24',  i))), 
+                                           qtl_output = temp$w24, covar = covar_w24, genoprobs = genoprobs, 
+                                           kinship = K, map = map, threshold = 6)
     
     assign(i, temp)
 }
