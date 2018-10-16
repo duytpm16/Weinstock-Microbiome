@@ -1,4 +1,4 @@
-# Weinstock Microbiome Analysis
+# Weinstock PompBenson-Microbiome QTL Analysis
 
 ## R version 3.5.1
 
