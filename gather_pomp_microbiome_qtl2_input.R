@@ -82,24 +82,16 @@ phylum_w24 <- phylum_16s[grep('w24',rownames(phylum_16s)),] %>% `rownames<-`(sam
 
 
 
+
+
+
+
+
 ### Create covar
 covar_w6 <- NULL
 covar_w17 <- model.matrix(~Diet, samples_w17)[,-1, drop = FALSE]
 covar_w24 <- model.matrix(~Diet, samples_w24)[,-1, drop = FALSE]
 
-
-
-
-
-
-## Making sure all names are in both covar and taxa dataset
-for(i in c(17,24)){
-    stopifnot(sum(rownames(get(paste0('covar_w',i))) %in% rownames(get(paste0('genus_w',i)))) == nrow(get(paste0('genus_w',i))))
-    stopifnot(sum(rownames(get(paste0('covar_w',i))) %in% rownames(get(paste0('family_w',i)))) == nrow(get(paste0('family_w',i))))
-    stopifnot(sum(rownames(get(paste0('covar_w',i))) %in% rownames(get(paste0('order_w',i)))) == nrow(get(paste0('order_w',i))))
-    stopifnot(sum(rownames(get(paste0('covar_w',i))) %in% rownames(get(paste0('class_w',i)))) == nrow(get(paste0('class_w',i))))
-    stopifnot(sum(rownames(get(paste0('covar_w',i))) %in% rownames(get(paste0('phylum_w',i)))) == nrow(get(paste0('phylum_w',i))))
-}
 
 
 
@@ -112,6 +104,9 @@ genoprobs <- readRDS("~/Desktop/Weinstock Microbiome/Filter Genotypes/weinstock_
 markers <- readRDS("~/Desktop/Weinstock Microbiome/Filter Genotypes/weinstock_markers_20181009.rds")
 map <- readRDS("~/Desktop/Weinstock Microbiome/Filter Genotypes/weinstock_maps_20181009.rds")
 K <- calc_kinship(genoprobs, type = 'loco', cores = 0)
+
+
+
 
 
 
