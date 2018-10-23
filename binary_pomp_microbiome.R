@@ -1,5 +1,6 @@
 ##################################################################################################################
-#   Try to process qtl scans with microbiome data as binary. 0 - not present          1 - present.
+#   Try to process qtl scans with microbiome data as binary. 
+#               0 - not present          1 - present.
 #
 #   Input:
 #       1.) .RData file generated from gather_pomp_microbiome_qtl2_input.R
@@ -17,7 +18,13 @@ load("~/Desktop/Weinstock Microbiome/weinstock_16s_microbiome_qtl2_input.RData")
 
 
 
+
+
+
+
 ### Save data as binary matrix
+
+#       Change week 6 dataset to binary
 for(i in ls()[grep('_w6', ls())]){
     
     if(!(grepl('samples', i) || grepl('rZ', i) || grepl('covar',i))){
@@ -28,6 +35,13 @@ for(i in ls()[grep('_w6', ls())]){
 }
 
 
+
+
+
+
+
+
+#       Change week 17 dataset to binary
 for(i in ls()[grep('_w17', ls())]){
   
   if(!(grepl('samples', i) || grepl('rZ', i) || grepl('covar',i))){
@@ -39,6 +53,13 @@ for(i in ls()[grep('_w17', ls())]){
 
 
 
+
+
+
+
+
+
+#       Change week 24 dataset to binary
 for(i in ls()[grep('_w24', ls())]){
   
   if(!(grepl('samples', i) || grepl('rZ', i) || grepl('covar',i))){
@@ -47,6 +68,11 @@ for(i in ls()[grep('_w24', ls())]){
     assign(i, temp)
   }
 }
+
+
+
+
+
 
 rm(list = c(ls()[grep('rZ',ls())]))
 rm(temp, i)
