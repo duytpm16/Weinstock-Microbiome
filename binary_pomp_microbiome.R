@@ -2,7 +2,7 @@
 #   Try to process qtl scans with microbiome data as binary. 0 - not present          1 - present.
 #
 #   Input:
-#       1.) .RData file generated from gather_
+#       1.) .RData file generated from gather_pomp_microbiome_qtl2_input.R
 #
 #
 #   Output:
