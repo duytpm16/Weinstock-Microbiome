@@ -4,11 +4,12 @@ library(qtl2)
 
 
 ### Load in qtl scans and map
-genus_qtl <- readRDS('weinstock_16s_microbiome_genus_rZ_qtl_lod.rds')
-family_qtl <- readRDS('weinstock_16s_microbiome_family_rZ_qtl_lod.rds')
-class_qtl <- readRDS('weinstock_16s_microbiome_class_rZ_qtl_lod.rds')
-order_qtl <- readRDS('weinstock_16s_microbiome_order_rZ_qtl_lod.rds')
-phylum_qtl <- readRDS('weinstock_16s_microbiome_phylum_rZ_qtl_lod.rds')
+otu_qtl <- readRDS('~/Desktop/Weinstock Microbiome/QTL scans/weinstock_16s_microbiome_otu_rZ_qtl_lod.rds')
+genus_qtl <- readRDS('~/Desktop/Weinstock Microbiome/QTL scans/weinstock_16s_microbiome_genus_rZ_qtl_lod.rds')
+family_qtl <- readRDS('~/Desktop/Weinstock Microbiome/QTL scans/weinstock_16s_microbiome_family_rZ_qtl_lod.rds')
+class_qtl <- readRDS('~/Desktop/Weinstock Microbiome/QTL scans/weinstock_16s_microbiome_class_rZ_qtl_lod.rds')
+order_qtl <- readRDS('~/Desktop/Weinstock Microbiome/QTL scans/weinstock_16s_microbiome_order_rZ_qtl_lod.rds')
+phylum_qtl <- readRDS('~/Desktop/Weinstock Microbiome/QTL scans/weinstock_16s_microbiome_phylum_rZ_qtl_lod.rds')
 
 
 load("~/Desktop/weinstock_16s_microbiome_qtl2_input.RData")
@@ -98,7 +99,7 @@ for(i in ls()[grep('qtl',ls())]){
 
 
 
-
+saveRDS(otu_qtl, 'weinstock_16s_microbiome_otu_rZ_qtl.rds')
 saveRDS(genus_qtl, 'weinstock_16s_microbiome_genus_rZ_qtl.rds')
 saveRDS(family_qtl, 'weinstock_16s_microbiome_family_rZ_qtl.rds')
 saveRDS(class_qtl, 'weinstock_16s_microbiome_class_rZ_qtl.rds')
