@@ -5,8 +5,9 @@
 #       1.) Name of R script file
 #       2.) Which taxa
 #       3.) Number of cores to run
-#       4.) Logical value: TRUE = qtl scan with rankZ transform data
-#                          FALSE = qtl scan with normalized data
+#       4.) Logical value (not needed for binary): 
+#                       TRUE = qtl scan with rankZ transform data
+#                       FALSE = qtl scan with normalized data 
 
 #PBS -l nodes=1:ppn=8
 #PBS -q batch
@@ -21,4 +22,15 @@ Rscript qtl2_scan1_pomp_microbiome.R weinstock_16s_microbiome family 8 TRUE
 Rscript qtl2_scan1_pomp_microbiome.R weinstock_16s_microbiome class 8 TRUE
 Rscript qtl2_scan1_pomp_microbiome.R weinstock_16s_microbiome order 8 TRUE
 Rscript qtl2_scan1_pomp_microbiome.R weinstock_16s_microbiome phylum 8 TRUE
+
+
+
+
+
+Rscript qtl2_scan1_binary_pomp_microbiome.R weinstock_16s_microbiome otu 8
+Rscript qtl2_scan1_binary_pomp_microbiome.R weinstock_16s_microbiome genus 8
+Rscript qtl2_scan1_bianry_pomp_microbiome.R weinstock_16s_microbiome family 8
+Rscript qtl2_scan1_binary_pomp_microbiome.R weinstock_16s_microbiome class 8
+Rscript qtl2_scan1_binary_pomp_microbiome.R weinstock_16s_microbiome order 8
+Rscript qtl2_scan1_binarypomp_microbiome.R weinstock_16s_microbiome phylum 8
 
