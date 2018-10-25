@@ -1,5 +1,5 @@
 ### This script reads in the required input data file generated from gather_microbiome_qtl2_input.R
-#       to run the qtl2 scan1 function.
+#       which contains the microbiome abundancies as binary matrices
 #
 #
 ### Input:
