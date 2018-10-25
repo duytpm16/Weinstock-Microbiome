@@ -8,6 +8,8 @@ library(dplyr)
 
 
 ### Read in the microbiome data that have been normalized by the median-normalized method.
+otu_16s <- read.xlsx('~/Desktop/Weinstock Microbiome/16S_taxonomic_abundance_tables_for_Pomp_DO_mouse_data/taxonomic_abundance_filtered_mediannormalized_20181004.xlsx',
+                     sheet = 'otu_normalized_abundance')
 genus_16s <- read.xlsx('~/Desktop/Weinstock Microbiome/16S_taxonomic_abundance_tables_for_Pomp_DO_mouse_data/taxonomic_abundance_filtered_mediannormalized_20181004.xlsx',
                        sheet = 'genus_normalized_abundance')
 family_16s <- read.xlsx('~/Desktop/Weinstock Microbiome/16S_taxonomic_abundance_tables_for_Pomp_DO_mouse_data/taxonomic_abundance_filtered_mediannormalized_20181004.xlsx',
@@ -48,6 +50,11 @@ samples_w6 <- samples_16s %>% filter(Week == 6) %>% `rownames<-`(.$Mouse)
 samples_w17 <- samples_16s %>% filter(Week == 17) %>% `rownames<-`(.$Mouse)
 samples_w24 <- samples_16s %>% filter(Week == 24) %>% `rownames<-`(.$Mouse)
 
+
+otu_16s <- otu_16s %>% `rownames<-`(.[,'Taxon']) %>% select(-Taxon) %>% t() %>% `rownames<-`(gsub('16s-', '', rownames(.)))
+otu_w6 <- otu_16s[grep('w6',rownames(otu_16s)),] %>% `rownames<-`(samples_w6$Mouse[match(samples_w6$SampleName, rownames(.))])
+otu_w17 <- otu_16s[grep('w17',rownames(otu_16s)),] %>% `rownames<-`(samples_w17$Mouse[match(samples_w17$SampleName, rownames(.))])
+otu_w24 <- otu_16s[grep('w24',rownames(otu_16s)),] %>% `rownames<-`(samples_w24$Mouse[match(samples_w24$SampleName, rownames(.))])
 
 
 genus_16s <- genus_16s %>% `rownames<-`(.[,'Taxon']) %>% select(-Taxon) %>% t() %>% `rownames<-`(gsub('16s-', '', rownames(.)))
@@ -121,6 +128,12 @@ rankZ = function(x) {
 } # rankZ()
 
 
+
+rZ_otu_w6 <- apply(otu_w6, 2, rankZ)
+rZ_otu_w17 <- apply(otu_w17, 2, rankZ)
+rZ_otu_w24 <- apply(otu_w24, 2, rankZ)
+
+
 rZ_genus_w6 <- apply(genus_w6, 2, rankZ)
 rZ_genus_w17 <- apply(genus_w17, 2, rankZ)
 rZ_genus_w24 <- apply(genus_w24, 2, rankZ)
@@ -146,7 +159,7 @@ rZ_phylum_w17 <- apply(phylum_w17, 2, rankZ)
 rZ_phylum_w24 <- apply(phylum_w24, 2, rankZ)
 
 
-rm(class_16s, family_16s, genus_16s, order_16s, phylum_16s, samples_16s, rankZ,i)
+rm(class_16s, family_16s, genus_16s, order_16s, otu_16s, phylum_16s, samples_16s, rankZ)
 
 
 save.image(file = 'weinstock_16s_microbiome_qtl2_input.RData')
