@@ -63,17 +63,11 @@ stopifnot(c("genoprobs", "K", "map", "markers") %in% ls())
 
 
 
-### If should_rankz is true used the normalized rankz dataset, else use the normalized dataset.
-if(should_rankz){
-  w6 <- get(paste0('rZ_',taxa,'_w6'))
-  w17 <- get(paste0('rZ_',taxa,'_w17'))
-  w24 <- get(paste0('rZ_',taxa,'_w24'))
-  
-}else{
-  w6 <- get(paste0(taxa,'_w6'))
-  w17 <- get(paste0(taxa,'_w17'))
-  w24 <- get(paste0(taxa,'_w24'))
-}
+### Read in binary matrix of given taxa
+w6 <- get(paste0(taxa,'_w6'))
+w17 <- get(paste0(taxa,'_w17'))
+w24 <- get(paste0(taxa,'_w24'))
+
 
 
 
@@ -87,7 +81,7 @@ qtl_w6 <- scan1(genoprobs = genoprobs,
                 kinship = K, 
                 addcovar = covar_w6,
                 intcovar = NULL,
-                model = binary,
+                model = "binary",
                 cores = num_cores)
 
 qtl_w17 <- scan1(genoprobs = genoprobs, 
@@ -95,7 +89,7 @@ qtl_w17 <- scan1(genoprobs = genoprobs,
                  kinship = K, 
                  addcovar = covar_w17,
                  intcovar = NULL,
-                 model = binary,
+                 model = "binary",
                  cores = num_cores)
 
 qtl_w24 <- scan1(genoprobs = genoprobs, 
@@ -103,7 +97,7 @@ qtl_w24 <- scan1(genoprobs = genoprobs,
                  kinship = K, 
                  addcovar = covar_w24,
                  intcovar = NULL,
-                 model = binary,
+                 model = "binary",
                  cores = num_cores)
 
 
