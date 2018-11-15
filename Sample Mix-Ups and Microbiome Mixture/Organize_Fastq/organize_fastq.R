@@ -1,12 +1,20 @@
 library(filesstrings)
 
+
+
+
 orig_dir <- '/projects/churchill-lab/data/Weinstock/Pomp_Benson/host_fastq/'
 setwd(orig_dir)
 
 
 
-for(i in dir()[-c(1,2)]){
-    print(i)
+
+
+
+### Within each of the sample's directory, create a directory for week 6, 17, and 24, and then within each of the week's
+#       directory, create a Pair_End and Singleton directory. Move files to their appropriate directory.
+for(i in dir()){
+
 
     # Set directory to one of the MGS_DO_* directory
     mwgs_directory <- paste0(orig_dir,'/',i,'/')
@@ -23,6 +31,8 @@ for(i in dir()[-c(1,2)]){
 
 
    
+    
+    
     # Moving files to their corresponding week directory
     week_6_mwgs <- dir()[grep('*-w6-*',dir())]
     week_17_mwgs <- dir()[grep('*-w17-*',dir())]    
