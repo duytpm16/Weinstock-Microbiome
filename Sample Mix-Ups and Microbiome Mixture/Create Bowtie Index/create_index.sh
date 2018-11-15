@@ -4,9 +4,28 @@ module load bowtie/1.1.2
 
 
 
-
+### Directory where .fa genome and bowtie indexes will be stored
 cd /home/phamd/GRCm38_Index/
 DIR="/home/phamd/GRCm38_Index/"
+
+
+
+
+
+
+
+### Create sub-directories for chromosomes 1-19 and X in the GRCm38_Index directory
+for i in {1..19};
+do
+  mkdir "${DIR}_$i";
+done;
+
+mkdir "${DIR}_X"
+
+
+
+
+
 
 
 
@@ -19,10 +38,6 @@ do
   bowtie-build "Mus_musculus.GRCm38.dna.chromosome.$i.fa" "GRCm38_Chr$i";
   cd ${DIR}
 done;
-
-
-
-
 
 
 ### Create bowtie index for the X chromosome
