@@ -39,6 +39,22 @@ mkdir "${DIR}_X"
 
 
 
+### Moving .fa files to their corresponding directory
+cd /home/phamd/
+for i in {1..19};
+do
+  mv "Mus_musculus.GRCm38.dna.chromosome.$i.fa" "${DIR}_$i";
+done;
+mv Mus_musculus.GRCm38.dna.chromosome.X.fa "${DIR}_X"
+
+
+
+
+
+
+
+
+
 ### Create bowtie1 index for the autosome and X chromosome
 for i in {1..19};
 do
