@@ -1,8 +1,31 @@
+#####################################################################################################################
+#   
+#    This script creates directories to help organize the fastq files given by Jethro in Globus.
+#    *Note: According to Jethro, 
+#               1.) fastq.1 and fastq.2 are paired-end reads
+#               2.) fastq.3 are singletons whose mate pair was lost during trimming                    
+#   
+#
+#    Input:
+#       1.) Directory to where directories of each sample was created.
+#
+#
+#    Output:
+#       1.) Sub-directories within each of the sample's directory. 
+#           Just moving files around to help organize the whole host_fastq directory.
+#
+#
+#
+#    Author: Duy Pham
+#    E-mail: duy.pham@jax.org
+#    Date:   November 14, 2018
+#
+#####################################################################################################################
 library(filesstrings)
 
 
 
-
+### Variables to change
 orig_dir <- '/projects/churchill-lab/data/Weinstock/Pomp_Benson/host_fastq/'
 setwd(orig_dir)
 
