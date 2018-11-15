@@ -1,10 +1,15 @@
-### Creating a directory for each sample
+### Creating a directory for each sample after unzipping the .gz files
 #   There's a better way to do this...
 
 
 
+### Go to directory where fastq files are
 cd /projects/churchill-lab/data/Weinstock/Pomp_Benson/host_fastq/
 
+
+
+
+### Create a directory for each sample
 
 # Samples 401-417
 for i in {401..417};
