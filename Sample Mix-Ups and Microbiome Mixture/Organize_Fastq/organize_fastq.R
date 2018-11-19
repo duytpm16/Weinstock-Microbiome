@@ -1,13 +1,13 @@
 #####################################################################################################################
 #   
-#    This script creates directories to help organize the fastq files given by Jethro in Globus.
-#    * Note: According to Jethro, 
+#    This script creates directories to help organize the fastq files given by Jethro via Globus.
+#    Note*: According to Jethro, 
 #               1.) fastq.1 and fastq.2 are paired-end reads
 #               2.) fastq.3 are singletons whose mate pair was lost during trimming                    
 #   
 #
 #    Input:
-#       1.) Directory to where directories of each sample was created.
+#       1.) Path to where directories of each sample was created.
 #
 #
 #    Output:
