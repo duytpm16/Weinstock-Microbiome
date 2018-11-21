@@ -18,6 +18,9 @@ module load samtools/0.1.18
 BWT_DIR="/home/phamd/chromFa/mm10.genome"
 MGS_DIR="/projects/churchill-lab/data/Weinstock/Pomp_Benson/host_fastq/"
 chromosome=("1" "2" "3" "4" "5" "6" "7" "8" "9" "10" "11" "12" "13" "14" "15" "16" "17" "18" "19" "X")
+
+
+
 cd $MGS_DIR
 
 
