@@ -89,9 +89,9 @@ do
     if [ $temp == 2 ]
     then
         pair_end_1a=`ls | grep *a_host.fastq.1`
-    	pair_end_2a=`ls | grep *a_host.fastq.2`
+    	 pair_end_2a=`ls | grep *a_host.fastq.2`
         pair_end_1b=`ls | grep *b_host.fastq.1`
-    	pair_end_2b=`ls | grep *b_host.fastq.2`
+    	 pair_end_2b=`ls | grep *b_host.fastq.2`
         
 	pair_end_1="${pair_end_1a},${pair_end_1b}"
         pair_end_2="${pair_end_2a},${pair_end_2b}"
