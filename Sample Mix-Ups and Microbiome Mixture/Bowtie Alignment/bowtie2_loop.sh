@@ -124,10 +124,15 @@ do
 
 
 
+
+
+
     # Printing the name of the read files
     echo ${pair_end_1}
     echo ${pair_end_2}
     echo ${singleton}
+
+
 
 
 
