@@ -113,10 +113,15 @@ do
 
 
 
-    ### Loop through each of the bwt indexes directory to perform bowtie alignment for every chromosome
+
+    ### Bowtie Alignment
     #     Save as BAM format, sort the BAM File, and finally create an BAM index file
     bowtie2 -q -p 32 -x ${BWT_DIR} -1 ${pair_end_1} -2 ${pair_end_2} -U ${singleton} | samtools view -bS - | samtools sort - "${SAMPLE_WEEK_DIR}${sample}_${week}_sorted"
     samtools index "${SAMPLE_WEEK_DIR}${sample}_${week}_sorted.bam"
+    
+    
+    
+    
     
     
   cd ${SAMPLE_DIR}; # Go back to the MGS_DO_* directory to loop through the next week
