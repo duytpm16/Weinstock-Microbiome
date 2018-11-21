@@ -98,7 +98,7 @@ do
     else
 
         pair_end_1=`ls | grep *fastq.1`
-    	 pair_end_2=`ls | grep *fastq.2`
+        pair_end_2=`ls | grep *fastq.2`
     fi
 
 
