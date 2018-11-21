@@ -70,8 +70,7 @@ do
         singleton_1a=`ls | grep *a_host.fastq.3`
         singleton_1b=`ls | grep *b_host.fastq.3`
 
-        singleton="${singleton_1a},${singleton_1b}"
-        singleton="${SAMPLE_WEEK_SINGLETON_DIR}${singleton}"
+        singleton="${SAMPLE_WEEK_SINGLETON_DIR}${singleton_1a},${SAMPLE_WEEK_SINGLETON_DIR}${singleton_1b}"
     else
 
         singleton=`ls | grep *fastq.3`
