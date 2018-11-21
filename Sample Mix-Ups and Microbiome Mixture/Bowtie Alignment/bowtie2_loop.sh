@@ -32,12 +32,20 @@ cd $MGS_DIR
 for i in */;
 do
 
+
+
   # Change to directory of the MGS_DO_* directory
-  sample=`echo -n $i | head -c -1`
   SAMPLE_DIR="$MGS_DIR$i"
   cd "$SAMPLE_DIR"
   
   echo $SAMPLE_DIR
+  
+  
+  
+  
+  # Save the MGS_DO_* directory name without the ending '/' to a variable for bam outfile name
+  sample=`echo -n $i | head -c -1`
+
 
 
 
@@ -48,7 +56,7 @@ do
   for j in */;
   do
 
-    # Save the week as a variable for bam outfile name
+    # Save the week directory without the ending '/' as a variable for bam outfile name
     week=`echo -n $j | head -c -1`
     
 
@@ -78,6 +86,7 @@ do
         singleton=`ls | grep *fastq.3`
         singleton="${SAMPLE_WEEK_SINGLETON_DIR}${singleton}"
     fi
+
 
 
 
@@ -117,10 +126,15 @@ do
 
 
 
+
+
+
     ### Bowtie Alignment
     #     Save as BAM format, sort the BAM File, and finally create an BAM index file
     bowtie2 -q -p 32 -x ${BWT_DIR} -1 ${pair_end_1} -2 ${pair_end_2} -U ${singleton} | samtools view -bS - | samtools sort - "${SAMPLE_WEEK_DIR}${sample}_${week}_sorted"
     samtools index "${SAMPLE_WEEK_DIR}${sample}_${week}_sorted.bam"
+    
+    
     
     
     
