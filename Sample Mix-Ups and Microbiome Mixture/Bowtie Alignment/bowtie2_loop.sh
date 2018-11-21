@@ -12,7 +12,7 @@ module load samtools/0.1.18
 
 
 ### Variables to change
-# 1.) Directory where bwt index are stored
+# 1.) Directory where bwt index are stored + prefix of bwt index
 # 2.) Directory where the fastq are stored
 # 3.) Array of chromosomes
 BWT_DIR="/home/phamd/chromFa/mm10.genome"
@@ -52,11 +52,14 @@ do
     week=`echo -n $j | head -c -1`
     
 
-    # Change to the Pair_End directory within the  week directory 
+    # Get the Pair End and Singleton directories
     SAMPLE_WEEK_DIR="${SAMPLE_DIR}${j}"
     SAMPLE_WEEK_PAIR_END_DIR="${SAMPLE_DIR}${j}Pair_End/"
     SAMPLE_WEEK_SINGLETON_DIR="${SAMPLE_DIR}${j}Singletons/"    
     
+
+
+
 
 
     # Get the singleton reads
@@ -74,6 +77,9 @@ do
         singleton=`ls | grep *fastq.3`
         singleton="${SAMPLE_WEEK_SINGLETON_DIR}${singleton}"
     fi
+
+
+
 
 
 
@@ -96,16 +102,26 @@ do
     fi
 
 
+
+
+    # Printing the name of the read files
     echo ${pair_end_1}
     echo ${pair_end_2}
     echo ${singleton}
 
 
+
+
+
     ### Loop through each of the bwt indexes directory to perform bowtie alignment for every chromosome
+    #     Save as BAM format, sort the BAM File, and finally create an BAM index file
     bowtie2 -q -p 32 -x ${BWT_DIR} -1 ${pair_end_1} -2 ${pair_end_2} -U ${singleton} | samtools view -bS - | samtools sort - "${SAMPLE_WEEK_DIR}${sample}_${week}_sorted"
     samtools index "${SAMPLE_WEEK_DIR}${sample}_${week}_sorted.bam"
-  cd ${SAMPLE_DIR}
+    
+    
+  cd ${SAMPLE_DIR}; # Go back to the MGS_DO_* directory to loop through the next week
   done; # for j
   
-  cd $MGS_DIR
+  
+cd $MGS_DIR;  # Go back to the directory where the MGS_DO directories are stored to loop through the next sample
 done; # for i
