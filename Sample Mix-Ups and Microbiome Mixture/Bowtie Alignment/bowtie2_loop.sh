@@ -94,7 +94,7 @@ do
     	 pair_end_2b=`ls | grep *b_host.fastq.2`
         
 	pair_end_1="${pair_end_1a},${pair_end_1b}"
-        pair_end_2="${pair_end_2a},${pair_end_2b}"
+         pair_end_2="${pair_end_2a},${pair_end_2b}"
     else
     
          pair_end_1=`ls | grep *fastq.1`
