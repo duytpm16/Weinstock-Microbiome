@@ -97,7 +97,7 @@ do
         pair_end_2="${pair_end_2a},${pair_end_2b}"
     else
 
-        pair_end_1=`ls | grep *fastq.1`
+         pair_end_1=`ls | grep *fastq.1`
     	pair_end_2=`ls | grep *fastq.2`
     fi
 
