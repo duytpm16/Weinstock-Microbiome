@@ -87,7 +87,7 @@ do
     # Get the paired-end reads
     cd "$SAMPLE_WEEK_PAIR_END_DIR"
     
-    #   Checking to see if 'b' version of the paired end fastq file exist
+    #   Checking to see if 'b' version of the paired end fastq files exist
     temp=`find . -iname '*b_host.fastq*' | wc -l`
     if [ $temp == 2 ]
     then
