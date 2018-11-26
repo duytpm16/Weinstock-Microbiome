@@ -4,8 +4,8 @@ library(qtl2)
 
 
 
+### Getting the CC variants of each chromosome and storing to a list
 query_variants <- create_variant_query_func("cc_variants.sqlite")
-
 
 snp_list <- list()
 for(i in c(1:19,'X')){
@@ -36,15 +36,20 @@ for(i in c(1:19,'X')){
 
 
 
-
+### Change to directory where fastq files are stored
 fastq_directory <- '/projects/churchill-lab/data/Weinstock/Pomp_Benson/host_fastq/'
 setwd(fastq_directory)
 
 
 
 
+
+
+
+
 ### Loop through each MGS_DO_* directory
 for(sample in dir()){
+  
     samples_directory <- paste0(fastq_directory,sample)
     print(samples_directory)
     setwd(samples_directory)
@@ -56,6 +61,7 @@ for(sample in dir()){
      
     ### Loop through each week directory within the MGS_DO_* directory 
     for(week in grep('Week_[0-9]$', dir(), value = TRUE)){
+      
         week_directory <- paste0(samples_directory, '/', week)
         print(week_directory)
         setwd(week_directory)
@@ -68,6 +74,7 @@ for(sample in dir()){
         
         
         
+      
         
   
         
@@ -94,4 +101,6 @@ for(sample in dir()){
         saveRDS(pileup_list, file = paste0(week_directory, '/', sample, '_', week, '_pileup.rds'))
     } # For week
    
+  
+  
 } # For sample
