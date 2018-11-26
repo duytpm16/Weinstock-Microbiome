@@ -28,7 +28,7 @@ for(i in c(1:19,'X')){
     
 }
 
-
+saveRDS(snp_list, 'cc_variants_snp_list.rds')
 
 
 
