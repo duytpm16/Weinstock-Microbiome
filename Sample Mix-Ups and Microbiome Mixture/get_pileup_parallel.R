@@ -35,6 +35,10 @@ end   = as.numeric(args[2])
 
 
 
+
+
+
+### Read in cc_variant list as generated from get_cc_variants.R
 snp_list <- readRDS('cc_variants_snp_list.rds')
 
 
@@ -42,8 +46,15 @@ snp_list <- readRDS('cc_variants_snp_list.rds')
 
 
 
+
+### Change to directory where fastq files are stored
 fastq_directory <- '/projects/churchill-lab/data/Weinstock/Pomp_Benson/host_fastq/'
 setwd(fastq_directory)
+
+
+
+
+
 
 
 
@@ -98,7 +109,7 @@ for(i in start:end){
         
         
            saveRDS(pileup_list, file = paste0(week_directory, '/', sample, '_', week, '_pileup.rds'))
-      } # For week
+       } # For week
    
     } # If sample exists
 
