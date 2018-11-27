@@ -37,7 +37,7 @@ for(sample in dir()){
      
      
     ### Loop through each week directory within the MGS_DO_* directory 
-    for(week in grep('Week_[0-9]$', dir(), value = TRUE)){
+    for(week in  list.dirs(samples_directory, recursive = FALSE, full.names = FALSE)){
       
         week_directory <- paste0(samples_directory, '/', week)
         print(week_directory)
