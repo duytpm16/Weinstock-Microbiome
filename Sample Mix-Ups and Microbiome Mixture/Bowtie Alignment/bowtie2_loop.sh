@@ -158,5 +158,5 @@ do
   done; # for j
   
   
-cd $MGS_DIR;  # Go back to the directory where the MGS_DO directories are stored to loop through the next sample
+cd $MGS_DIR;  # Go back to the directory where the MGS_DO directories are to loop through the next sample
 done; # for i
