@@ -134,7 +134,7 @@ for(i in start:end){
 
 
                 # Save read_counts_df into a list 
-   	            read_counts_df <- merge(major_read_counts_df, minor_read_counts_df, by = 'pos')                
+   	           read_counts_df <- merge(major_read_counts_df, minor_read_counts_df, by = 'pos')                
                 read_counts_list[[chr]] <- read_counts_df
 
                 
