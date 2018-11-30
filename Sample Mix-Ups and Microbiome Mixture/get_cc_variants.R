@@ -14,7 +14,7 @@ for(i in c(1:19,'X')){
 
     # Get CC variants at chromosome i
     snp_info     <- query_variants(chr = i, start = 1, end = 1000)
-    snp_info$pos <- snp_info$pos * 1000000                           # Need to multiple pos by 1e6 to match with pileup files
+    snp_info$pos <- round(snp_info$pos * 1000000)                          # Need to multiple pos by 1e6 to match with pileup files
 
 
 
