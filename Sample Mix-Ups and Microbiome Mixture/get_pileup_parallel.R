@@ -86,6 +86,7 @@ for(i in start:end){
            for(chromosome in c(1:19,'X')){
                load(paste0(snp_dir,'imputed_snps_chr_',chromosome,'.RData'))
                rm(list=c(paste0('imp_snps_chr',chromosome)))                                           # Need to remove imputed snp matrix other job will be killed due to large memory
+             
                snpinfo     <- get(paste0('snpinfo_chr',chromosome))
                snpinfo$pos <- round(snpinfo$pos * 1000000)
                
