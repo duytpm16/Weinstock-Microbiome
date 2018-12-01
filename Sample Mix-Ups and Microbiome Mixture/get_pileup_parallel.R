@@ -93,7 +93,7 @@ for(i in start:end){
             
             
                chr_pileup <- pileup(bf, scanBamParam=chr_param)
-               chr_pileup <- chr_pileup[chr_pileup$pos %in% snp_list[[chromosome]]$pos, ]
+               chr_pileup <- chr_pileup[chr_pileup$pos %in% snpinfo$pos, ]
             
             
                saveRDS(pileup_list, file = paste0(week_directory, '/', sample, '_', week, '_pileup_chr_',chromsome,'.rds'))   
