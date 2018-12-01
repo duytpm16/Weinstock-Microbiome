@@ -11,7 +11,7 @@ library(tidyr)
 args            <- commandArgs(trailingOnly = TRUE)
 start           <- as.numeric(args[1])
 end             <- as.numeric(args[2])
-snp_list        <- readRDS('cc_variants_snp_list.rds')                               # Read in cc_variant list as generated from get_cc_variants.R
+snp_dir         <- '/home/phamd/'                                                    # Read in cc_variant list as generated from get_cc_variants.R
 fastq_directory <- '/projects/churchill-lab/data/Weinstock/Pomp_Benson/host_fastq/'  # Directory where fastq files are stored
 chromosomes     <- c("1","2","3","4","5","6","7","8","9","10","11",                  # Vector of chromosomes
                      "12","13","14","15","16","17","18","19","X") 
@@ -79,9 +79,11 @@ for(i in start:end){
            for(chr in chromosomes){
           
                # Get pileup and snpinfo of one chromosome
-               chr_pileup     <- pileup[[chr]]
-               chr_snp_info   <- snp_list[[chr]]
-               chr_snp_info   <- chr_snp_info[ chr_snp_info$pos %in% chr_pileup$pos,]
+               load(paste0(snp_dir, 'imputed_snps_chr_',chr,'.RData'))
+               chr_pileup       <- pileup[[chr]]
+               chr_snp_info     <- get(paste0('snpinfo_chr',chr))
+               chr_snp_info$pos <- round(chr_snp_info$pos * 1000000)
+               chr_snp_info     <- chr_snp_info[ chr_snp_info$pos %in% chr_pileup$pos,]
             
             
             
@@ -134,7 +136,7 @@ for(i in start:end){
 
 
                 # Save read_counts_df into a list 
-   	           read_counts_df <- merge(major_read_counts_df, minor_read_counts_df, by = 'pos')                
+   	        read_counts_df <- merge(major_read_counts_df, minor_read_counts_df, by = 'pos')                
                 read_counts_list[[chr]] <- read_counts_df
 
                 
