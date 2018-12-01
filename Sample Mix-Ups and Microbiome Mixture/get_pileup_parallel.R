@@ -29,26 +29,16 @@ library(qtl2)
 
 ### Comman line arguments/variables to change
 args = commandArgs(trailingOnly = TRUE)
-start = as.numeric(args[1])
-end   = as.numeric(args[2])
+start           <- as.numeric(args[1])
+end             <- as.numeric(args[2])
+snp_dir         <- '/home/phamd/'
+fastq_directory <- '/projects/churchill-lab/data/Weinstock/Pomp_Benson/host_fastq/'      # Directory where fastq files are stored
 
 
 
 
 
 
-
-### Read in cc_variant list as generated from get_cc_variants.R
-snp_list <- readRDS('cc_variants_snp_list.rds')
-
-
-
-
-
-
-
-### Change to directory where fastq files are stored
-fastq_directory <- '/projects/churchill-lab/data/Weinstock/Pomp_Benson/host_fastq/'
 setwd(fastq_directory)
 
 
@@ -89,10 +79,14 @@ for(i in start:end){
   
         
            ### Loop through each chromosome to get pileup
-           pileup_list <- list()
            for(chromosome in c(1:19,'X')){
+               load(paste0(snp_dir,'imputed_snps_chr_',chromsome,'.RData'))
+               snpinfo     <- get(paste0('snpinfo_chr',chromsome))
+               snpinfo$pos <- round(snpinfo$pos * 1000000)
+               
+               
                chr <- paste0('chr',chromosome)                                                         # Need to paste 'chr' to chromosome since UCSC named their contigs with 'chr*'
-            
+               
             
                chr_length <- as.data.frame(seqinfo(bf))[chr, "seqlengths"]
                chr_param  <- ScanBamParam(which=setNames(IRangesList(IRanges(0L, chr_length)), chr))
@@ -102,13 +96,10 @@ for(i in start:end){
                chr_pileup <- chr_pileup[chr_pileup$pos %in% snp_list[[chromosome]]$pos, ]
             
             
-               pileup_list[[chromosome]] <- chr_pileup
+               saveRDS(pileup_list, file = paste0(week_directory, '/', sample, '_', week, '_pileup_chr_',chromsome,'.rds'))   
             
            } # For chromosome
         
-        
-        
-           saveRDS(pileup_list, file = paste0(week_directory, '/', sample, '_', week, '_pileup.rds'))
        } # For week
    
     } # If sample exists
