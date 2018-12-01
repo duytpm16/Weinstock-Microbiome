@@ -57,7 +57,7 @@ for(sample in dir()){
         
         ### Loop through each chromosome to get pileup
         pileup_list <- list()
-        for(chromosome in c('1')){
+        for(chromosome in c(1:19,'X')){
             chr <- paste0('chr',chromosome)                                                         # Need to paste 'chr' to chromosome since UCSC named their contigs with 'chr*'
             
             
