@@ -81,6 +81,8 @@ for(i in start:end){
           
                # Get pileup and snpinfo of one chromosome
                load(paste0(snp_dir, 'imputed_snps_chr_',chr,'.RData'))
+               rm(list=c(paste0('imp_snps_chr',chromosome)))                                           # Need to remove imputed snp matrix other job will be killed due to large memory
+             
                chr_pileup       <- pileup[[chr]]
                chr_snp_info     <- get(paste0('snpinfo_chr',chr))
                chr_snp_info$pos <- round(chr_snp_info$pos * 1000000)
@@ -92,14 +94,14 @@ for(i in start:end){
               
 
     	       ### Create dataframe for major/minor allele
-   	       major_read_counts_df <- chr_snp_info %>% 
-                                                    select(pos, alleles) %>%
-                                                    separate(col = alleles, into = c("nucleotide", "Minor"), sep = "\\|") %>%
-                                                    select(-Minor)
-               minor_read_counts_df <- chr_snp_info %>% 
-                                                    select(pos, alleles) %>%
-                                                    separate(col = alleles, into = c("Major", "nucleotide"), sep = "\\|") %>%
-                                                    select(-Major)	          
+   	         major_read_counts_df <- chr_snp_info %>% 
+                                                  select(pos, alleles) %>%
+                                                  separate(col = alleles, into = c("nucleotide", "Minor"), sep = "\\|") %>%
+                                                  select(-Minor)
+             minor_read_counts_df <- chr_snp_info %>% 
+                                                  select(pos, alleles) %>%
+                                                  separate(col = alleles, into = c("Major", "nucleotide"), sep = "\\|") %>%
+                                                  select(-Major)	          
             
                
 
