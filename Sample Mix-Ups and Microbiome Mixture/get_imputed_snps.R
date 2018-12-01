@@ -1,3 +1,4 @@
+options(stringsAsFactors = FALSE)
 library(qtl2)
 library(dplyr)
 
@@ -5,10 +6,11 @@ library(dplyr)
 
 ### Variables to change
 args = commandArgs(trailing = TRUE)
+chromsomes     <- c(args[1])
 query_variants <- create_variant_query_func("/projects/churchill-lab/resource/qtl2_snps_genes/cc_variants.sqlite", filter = "type=='snp'")
 genoprobs      <- readRDS("pomp_genoprobs_qtl2.rds")
 maps           <- readRDS("pomp_map_qtl2.rds")
-chromsomes     <- c(args[1])
+
 
 
 
