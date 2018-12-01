@@ -9,9 +9,9 @@ library(tidyr)
 
 ### Comman line arguments / variables to change
 args            <- commandArgs(trailingOnly = TRUE)
-start           <- as.numeric(args[1])
-end             <- as.numeric(args[2])
-snp_dir         <- '/home/phamd/'                                                    # Read in cc_variant list as generated from get_cc_variants.R
+start           <- as.numeric(args[1])                                               # For Parallel, A DO sample number to start with
+end             <- as.numeric(args[2])                                               # A DO sample number to end with
+snp_dir         <- '/home/phamd/'                                                    # Directory to the imputed snp .RData as generate by get_imputed_snps.R 
 fastq_directory <- '/projects/churchill-lab/data/Weinstock/Pomp_Benson/host_fastq/'  # Directory where fastq files are stored
 chromosomes     <- c("1","2","3","4","5","6","7","8","9","10","11",                  # Vector of chromosomes
                      "12","13","14","15","16","17","18","19","X") 
@@ -66,6 +66,7 @@ for(i in start:end){
            setwd(week_directory)
       
       
+           # Read in the pile up file
            pileup <- readRDS(grep('*pileup.rds', dir(), value = TRUE))
         
       
