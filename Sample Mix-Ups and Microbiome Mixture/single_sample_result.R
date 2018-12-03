@@ -1,5 +1,10 @@
+### Options
+options(stringsAsFactors == FALSE)
 
-# get summaries for each MB sample against all DNA samples, one chr
+
+
+### Command line arguments / variable to change
+#     Get summaries for each MB sample against all DNA samples, one chr and one week
 args = commandArgs(trailingOnly = TRUE)
 home_directory  <- '/home/phamd/'
 fastq_directory <- "/projects/churchill-lab/data/Weinstock/Pomp_Benson/host_fastq/"
@@ -7,7 +12,11 @@ chr             <- args[1]
 week            <- args[2]
 
 
-# load the corresponding imputed SNPs for that chromosome
+
+
+
+
+# Load the corresponding imputed SNPs for that chromosome
 load(paste0("/home/phamd/imputed_snps_chr_", chr, ".RData"))
 imp_snps             <- get(paste0('imp_snps_chr', chr))
 index_snpinfo        <- get(paste0('indexed_snpinfo_chr', chr))
@@ -18,6 +27,11 @@ save_directory       <- paste0(home_directory,'week_',week,'/')
 
 
 
+
+
+
+
+### Change directory to where fastq files are stored
 setwd(fastq_directory)
 sample_num     <- sapply(dir(), function(s) unlist(strsplit(s, '_'))[3])
 sample_id      <- paste0('DPDP.DO2.',sample_num,'.F')
@@ -26,14 +40,23 @@ sample_id      <- paste0('DPDP.DO2.',sample_num,'.F')
 
 
 
+                         
+                         
+                         
+                         
+                         
+### Create object to store result
+sample_results        <- vector("list", length(dir()))
+names(sample_results) <- sample_id
 
-sample_results   <- vector("list", length(dir()))
-names(sample_results)   <- sample_id
 
 
 
-
-
+                         
+                         
+                         
+                         
+                         
 
 
 ### Loop through each MGS_DO_* directory
@@ -48,9 +71,15 @@ for(index in 1:length(sample_num)){
   
   
   
+  
+  
     # Read in read counts of one chromosome for one sample 
+    # Filter rows where major and minor counts are 0
     sample_read_counts <- readRDS(paste0(sample,'_Week_',week,'_readcounts_chr_',chr,'.rds'))
     sample_read_counts <- sample_read_counts[!(sample_read_counts$Major_Count == 0 & sample_read_counts$Minor_Count == 0),] 
+  
+  
+  
   
   
   
@@ -64,6 +93,9 @@ for(index in 1:length(sample_num)){
   
   
   
+  
+  
+  
     # Extract snp names that match positions found. Will be used to extract the imputed snps matrix columns
     imp_snps_col <- index_snpinfo$snp[snpinfo_row]
     print(length(imp_snps_col)) 
@@ -71,11 +103,10 @@ for(index in 1:length(sample_num)){
   
   
   
+  
     # Create object to contain the results for the single samples
     sample_results[[index]] <- array(0, dim=c(nrow(imp_snps), 3, 2))
     dimnames(sample_results[[index]]) <- list(rownames(imp_snps), c("AA", "AB", "BB"), c("A", "B"))
-  
-  
   
   
   
