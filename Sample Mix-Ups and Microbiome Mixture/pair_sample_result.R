@@ -1,4 +1,17 @@
-# get summaries for each MB sample against all DNA samples, one chr
+### Options
+options(stringsAsFactors = FALSE)
+
+
+
+
+
+
+
+### Command line arguments / variables to change
+#     1.) home_directory : directory where my imputed snps .RData file are stored + where I want to save output of this script
+#     2.) fastq_directory: directory where each sub-directory is a DO sample and contains the fastq, pileup, and read counts
+#     3.) chr            : chromosome readcounts to get
+#     4.) week           : which week to get readcounts from
 args = commandArgs(trailingOnly = TRUE)
 home_directory  <- '/home/phamd/'
 fastq_directory <- "/projects/churchill-lab/data/Weinstock/Pomp_Benson/host_fastq/"
@@ -7,28 +20,44 @@ week            <- args[2]
 
 
 
-# load the corresponding imputed SNPs for that chromosome
-load(paste0(home_directory,"imputed_snps_chr_", chr, ".RData"))
-imp_snps             <- get(paste0('imp_snps_chr', chr))
-index_snpinfo        <- get(paste0('indexed_snpinfo_chr', chr))
-index_snpinfo$pos_bp <- round(index_snpinfo$pos * 1e6)
-save_directory       <- paste0(home_directory,'week_',week,'/')
 
 
 
 
 
+
+
+### Load the corresponding imputed SNPs and SNP info for that chromosome
+load(paste0("/home/phamd/imputed_snps_chr_", chr, ".RData"))
+imp_snps             <- get(paste0('imp_snps_chr', chr))                    # Get imputed snp matrix
+index_snpinfo        <- get(paste0('indexed_snpinfo_chr', chr))             # Get the indexed snp info dataframe
+index_snpinfo$pos_bp <- round(index_snpinfo$pos * 1e6)                      # Make new column of position in bp
+save_directory       <- paste0(home_directory,'week_',week,'/')             # Directory to store output
+
+
+
+
+
+
+
+
+
+### Change directory to where fastq are store and get sample ids
 setwd(fastq_directory)
 sample_num     <- sapply(dir(), function(s) unlist(strsplit(s, '_'))[3])
 sample_id      <- paste0('DPDP.DO2.',sample_num,'.F')
 
-print(sample_id)
 
 
 
 
-pair_results   <- vector("list", length(dir()))
-names(pair_results)   <- sample_id
+
+
+### Creating object to store results
+sample_results   <- vector("list", length(dir()))
+names(sample_results)   <- sample_id
+
+                         
 
 
 
@@ -39,9 +68,14 @@ names(pair_results)   <- sample_id
 ### Loop through each MGS_DO_* directory
 for(index in 1:length(sample_num)){
   
-    # Change to MGS_DO_* directory and week directory
+    # Get directory name
     sample <- paste0('MGS_DO_', sample_num[index])
     sample_week_directory <- paste0(fastq_directory, sample, '/Week_', week)
+  
+  
+  
+  
+    # Change to MGS_DO_* directory and week directory if it exists
     if(dir.exists(sample_week_directory)){
        setwd(sample_week_directory)
        print(sample_week_directory)
@@ -49,7 +83,9 @@ for(index in 1:length(sample_num)){
   
   
   
-       # Read in read counts of one chromosome for one sample 
+      
+      
+       # Read in read counts of one chromosome of one sample. Filter rows where Major and Minor allele count is 0
        sample_read_counts <- readRDS(paste0(sample,'_Week_',week,'_readcounts_chr_',chr,'.rds'))
        sample_read_counts <- sample_read_counts[!(sample_read_counts$Major_Count == 0 & sample_read_counts$Minor_Count == 0),]
 
@@ -57,6 +93,8 @@ for(index in 1:length(sample_num)){
   
   
     
+      
+       # Making sure all positions and snp id are the same
        aligning_pos           <- sample_read_counts$pos[sample_read_counts$pos %in% index_snpinfo$pos_bp]
        filtered_index_snpinfo <- index_snpinfo[index_snpinfo$pos_bp %in% aligning_pos,]
        sample_read_counts     <- sample_read_counts[sample_read_counts$pos %in% aligning_pos,]
@@ -66,7 +104,12 @@ for(index in 1:length(sample_num)){
        print(length(imp_snps_col))    
     
   
-       # create object to contain the results for sample pairs
+      
+      
+      
+      
+      
+       # Create object to contain the results for sample pairs
        pair_results[[index]] <- array(0, dim=c(nrow(imp_snps), 3, 3, 2))
        dimnames(pair_results[[index]]) <- list(rownames(imp_snps), c("AA", "AB", "BB"),
                                             c("AA", "AB", "BB"), c("A", "B"))
@@ -89,6 +132,11 @@ for(index in 1:length(sample_num)){
     
        } # for i 
   
+      
+      
+      
+      
+      
     } # if  
     
 } # loop over MB samples
