@@ -133,9 +133,9 @@ for(index in 1:length(sample_num)){
               
               } # for j
     
-         } # for i 
+          } # for i 
       
-      } # if sample_id
+       } # if sample_id
     
     } # if  
     
