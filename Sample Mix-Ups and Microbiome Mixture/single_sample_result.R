@@ -99,7 +99,7 @@ for(index in 1:length(sample_num)){
       
   
        # Making sure all positions and snp id are the same
-       aligning_pos           <- sample_read_counts$pos[sample_read_counts$pos %in% index_snpinfo$pos_bp]
+       aligning_pos           <- intersect(sample_read_counts$pos, index_snpinfo$pos_bp)
  
        filtered_index_snpinfo <- index_snpinfo[index_snpinfo$pos_bp %in% aligning_pos,]
        sample_read_counts     <- sample_read_counts[sample_read_counts$pos %in% aligning_pos,]
@@ -116,7 +116,7 @@ for(index in 1:length(sample_num)){
       
       
        # Create object to contain the results for the single samples
-       sample_results[[index]] <- array(0, dim=c(nrow(imp_snps), 3, 2))
+       sample_results[[index]]           <- array(0, dim=c(nrow(imp_snps), 3, 2))
        dimnames(sample_results[[index]]) <- list(rownames(imp_snps), c("AA", "AB", "BB"), c("A", "B"))
    
   
