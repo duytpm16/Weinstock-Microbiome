@@ -95,7 +95,7 @@ for(index in 1:length(sample_num)){
     
       
        # Making sure all positions and snp id are the same
-       aligning_pos           <- sample_read_counts$pos[sample_read_counts$pos %in% index_snpinfo$pos_bp]
+       aligning_pos           <- intersect(sample_read_counts$pos,index_snpinfo$pos_bp)
        filtered_index_snpinfo <- index_snpinfo[index_snpinfo$pos_bp %in% aligning_pos,]
        sample_read_counts     <- sample_read_counts[sample_read_counts$pos %in% aligning_pos,]
        imp_snps_col           <- colnames(imp_snps)[colnames(imp_snps) %in% filtered_index_snpinfo$snp]
@@ -114,29 +114,29 @@ for(index in 1:length(sample_num)){
        dimnames(pair_results[[index]]) <- list(rownames(imp_snps), c("AA", "AB", "BB"),
                                             c("AA", "AB", "BB"), c("A", "B"))
   
-       g0 <- imp_snps[sample_id[index], imp_snps_col]
-       for(i in 1:nrow(imp_snps)) {
-    
-           g <- imp_snps[i, imp_snps_col]
+      
+      
+       if(sample_id[index] %in% rownames(imp_snps)){
+          g0 <- imp_snps[sample_id[index], imp_snps_col]
+       
+          for(i in 1:nrow(imp_snps)) {
+              g <- imp_snps[i, imp_snps_col]
      
-           for(j in 1:3) {
+              for(j in 1:3) {
       
-               for(k in 1:3){
+                  for(k in 1:3){
                   
-                   pair_results[[index]][i, j, k, 1] <- sum(sample_read_counts$Major_Count[!is.na(g0) & g0==j & !is.na(g) & g==k])
-                   pair_results[[index]][i, j, k, 2] <- sum(sample_read_counts$Minor_Count[!is.na(g0) & g0==j & !is.na(g) & g==k])
+                      pair_results[[index]][i, j, k, 1] <- sum(sample_read_counts$Major_Count[!is.na(g0) & g0==j & !is.na(g) & g==k])
+                      pair_results[[index]][i, j, k, 2] <- sum(sample_read_counts$Minor_Count[!is.na(g0) & g0==j & !is.na(g) & g==k])
               
-               } # for k
+                  } # for k
               
-           } # for j
+              } # for j
     
-       } # for i 
-  
+         } # for i 
       
-      
-      
-      
-      
+      } # if sample_id
+    
     } # if  
     
 } # loop over MB samples
