@@ -1,6 +1,6 @@
 
 ### 1.) bowtie2 alignment
->> bowtie2 directory
+>> bowtie alignment directory
 
 ### 2.) Generate pile up files
 >> get_pileup.R
