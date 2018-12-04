@@ -115,7 +115,7 @@ for(index in 1:length(sample_num)){
                                             c("AA", "AB", "BB"), c("A", "B"))
   
       
-      
+       # If genoprob for sample exist...So far sample 513 does not have genotype probabilities
        if(sample_id[index] %in% rownames(imp_snps)){
           g0 <- imp_snps[sample_id[index], imp_snps_col]
        
