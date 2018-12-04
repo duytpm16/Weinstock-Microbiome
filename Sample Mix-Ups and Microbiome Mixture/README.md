@@ -5,5 +5,8 @@
 ### 2.) Generate pile up files
 >> get_pileup.R
 
-### 3.) Count number of reads that overlap snps
+### 3.) Get imputed SNPs and SNP info 
+>> get_imputed_snps.R 
+
+### 4.) Count number of reads that overlap snps 
 >> get_readcounts.R
