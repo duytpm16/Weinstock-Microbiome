@@ -9,9 +9,9 @@ library(tidyr)
 
 ### Comman line arguments / variables to change
 args            <- commandArgs(trailingOnly = TRUE)
-start           <- as.numeric(args[1])                                               # For Parallel, A DO sample number to start with
-end             <- as.numeric(args[2])                                               # A DO sample number to end with
-snp_dir         <- '/home/phamd/'                                                    # Directory to the imputed snp .RData as generate by get_imputed_snps.R 
+start           <- as.numeric(args[1])
+end             <- as.numeric(args[2])
+snp_dir         <- '/home/phamd/'                                                    # Read in cc_variant list as generated from get_cc_variants.R
 fastq_directory <- '/projects/churchill-lab/data/Weinstock/Pomp_Benson/host_fastq/'  # Directory where fastq files are stored
 chromosomes     <- c("1","2","3","4","5","6","7","8","9","10","11",                  # Vector of chromosomes
                      "12","13","14","15","16","17","18","19","X") 
@@ -66,27 +66,21 @@ for(i in start:end){
            setwd(week_directory)
       
       
-           # Read in the pile up file
-           pileup <- readRDS(grep('*pileup.rds', dir(), value = TRUE))
-        
-      
-        
-        
         
         
         
            ### Loop through each chromosome
-           read_counts_list <- list()
            for(chr in chromosomes){
           
                # Get pileup and snpinfo of one chromosome
                load(paste0(snp_dir, 'imputed_snps_chr_',chr,'.RData'))
-               rm(list=c(paste0('imp_snps_chr',chromosome)))                                           # Need to remove imputed snp matrix other job will be killed due to large memory
-             
-               chr_pileup       <- pileup[[chr]]
+               rm(list=c(paste0('imp_snps_chr',chr)))                    # Need to remove imputed snp matrix otherwise job will be killed due to large memory
+            
+            
+               chr_pileup       <- readRDS(paste0(week_directory, '/', sample, '_', week, '_pileup_chr_',chr,'.rds'))
                chr_snp_info     <- get(paste0('snpinfo_chr',chr))
                chr_snp_info$pos <- round(chr_snp_info$pos * 1000000)
-               chr_snp_info     <- chr_snp_info[ chr_snp_info$pos %in% chr_pileup$pos,]
+               chr_snp_info     <- chr_snp_info[chr_snp_info$pos %in% chr_pileup$pos,]
             
             
             
@@ -94,14 +88,14 @@ for(i in start:end){
               
 
     	       ### Create dataframe for major/minor allele
-   	         major_read_counts_df <- chr_snp_info %>% 
-                                                  select(pos, alleles) %>%
-                                                  separate(col = alleles, into = c("nucleotide", "Minor"), sep = "\\|") %>%
-                                                  select(-Minor)
-             minor_read_counts_df <- chr_snp_info %>% 
-                                                  select(pos, alleles) %>%
-                                                  separate(col = alleles, into = c("Major", "nucleotide"), sep = "\\|") %>%
-                                                  select(-Major)	          
+   	       major_read_counts_df <- chr_snp_info %>% 
+                                                    select(pos, alleles) %>%
+                                                    separate(col = alleles, into = c("nucleotide", "Minor"), sep = "\\|") %>%
+                                                    select(-Minor)
+               minor_read_counts_df <- chr_snp_info %>% 
+                                                    select(pos, alleles) %>%
+                                                    separate(col = alleles, into = c("Major", "nucleotide"), sep = "\\|") %>%
+                                                    select(-Major)	          
             
                
 
@@ -140,15 +134,9 @@ for(i in start:end){
 
                 # Save read_counts_df into a list 
    	        read_counts_df <- merge(major_read_counts_df, minor_read_counts_df, by = 'pos')                
-                read_counts_list[[chr]] <- read_counts_df
 
-                
+     		saveRDS(read_counts_df,  file = paste0(week_directory, '/', sample, '_', week, '_readcounts_chr_',chr,'.rds'))           
             } # For chr
-           
-                     
-  
-  
-         saveRDS(read_counts_list,  file = paste0(week_directory, '/', sample, '_', week, '_readcounts.rds'))     
       
       } # For week
        
