@@ -88,14 +88,15 @@ for(i in start:end){
               
 
     	       ### Create dataframe for major/minor allele
-   	       major_read_counts_df <- chr_snp_info %>% 
-                                                    select(pos, alleles) %>%
-                                                    separate(col = alleles, into = c("nucleotide", "Minor"), sep = "\\|") %>%
-                                                    select(-Minor)
-               minor_read_counts_df <- chr_snp_info %>% 
-                                                    select(pos, alleles) %>%
-                                                    separate(col = alleles, into = c("Major", "nucleotide"), sep = "\\|") %>%
-                                                    select(-Major)	          
+             major_read_counts_df <- chr_snp_info %>% 
+                                                  select(pos, alleles) %>%
+                                                  separate(col = alleles, into = c("nucleotide", "Minor"), sep = "\\|") %>%
+                                                  select(-Minor)
+             
+             minor_read_counts_df <- chr_snp_info %>% 
+                                                  select(pos, alleles) %>%
+                                                  separate(col = alleles, into = c("Major", "nucleotide"), sep = "\\|") %>%
+                                                  select(-Major)	          
             
                
 
