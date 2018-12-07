@@ -81,50 +81,50 @@ for(i in start:end){
                chr_snp_info     <- get(paste0('snpinfo_chr',chr))
                chr_snp_info$pos <- round(chr_snp_info$pos * 1000000)
                chr_snp_info     <- chr_snp_info[chr_snp_info$pos %in% chr_pileup$pos,]
-            
-            
-            
-
-              
-
-    	       ### Create dataframe for major/minor allele
-             major_read_counts_df <- chr_snp_info %>% 
-                                                  select(pos, alleles) %>%
-                                                  separate(col = alleles, into = c("nucleotide", "Minor"), sep = "\\|") %>%
-                                                  select(-Minor)
              
-             minor_read_counts_df <- chr_snp_info %>% 
-                                                  select(pos, alleles) %>%
-                                                  separate(col = alleles, into = c("Major", "nucleotide"), sep = "\\|") %>%
-                                                  select(-Major)	          
-            
-               
+             
+             
+             
+             
+             
+    	         ### Create dataframe for major/minor allele
+               major_read_counts_df <- chr_snp_info %>% 
+                                                    select(pos, alleles) %>%
+                                                    separate(col = alleles, into = c("nucleotide", "Minor"), sep = "\\|") %>%
+                                                    select(-Minor)
+             
+               minor_read_counts_df <- chr_snp_info %>% 
+                                                    select(pos, alleles) %>%
+                                                    separate(col = alleles, into = c("Major", "nucleotide"), sep = "\\|") %>%
+                                                    select(-Major)	          
 
-
-
-               
-
-
-
-
-                # Count number of reads that overlap snp
-                snp_counts <- chr_pileup %>% 
-                                         group_by(pos, nucleotide) %>%
-                                         tally(count) %>%
-                                         mutate(nucleotide = as.character(nucleotide))
+             
+             
+             
+             
+             
+             
+             
+             
+             
+               # Count number of reads that overlap snp
+               snp_counts <- chr_pileup %>% 
+                                        group_by(pos, nucleotide) %>%
+                                        tally(count) %>%
+                                        mutate(nucleotide = as.character(nucleotide))
   
 
     
-                major_read_counts_df <- merge(major_read_counts_df, snp_counts, by = c('pos','nucleotide'), all.x = TRUE) %>%
+               major_read_counts_df <- merge(major_read_counts_df, snp_counts, by = c('pos','nucleotide'), all.x = TRUE) %>%
                                                  dplyr::rename(Major_Allele = nucleotide, Major_Count = n)
-                major_read_counts_df[is.na(major_read_counts_df)] <- 0
+               major_read_counts_df[is.na(major_read_counts_df)] <- 0
     
 
     
 
-                minor_read_counts_df <- merge(minor_read_counts_df, snp_counts, by = c('pos','nucleotide'), all.x = TRUE) %>% 
+               minor_read_counts_df <- merge(minor_read_counts_df, snp_counts, by = c('pos','nucleotide'), all.x = TRUE) %>% 
                                                  dplyr::rename(Minor_Allele = nucleotide, Minor_Count = n)
-                minor_read_counts_df[is.na(minor_read_counts_df)] <- 0
+               minor_read_counts_df[is.na(minor_read_counts_df)] <- 0
                   
 
 
@@ -133,10 +133,10 @@ for(i in start:end){
 
 
 
-                # Save read_counts_df into a list 
-   	        read_counts_df <- merge(major_read_counts_df, minor_read_counts_df, by = 'pos')                
+               # Save read_counts_df into a list 
+   	           read_counts_df <- merge(major_read_counts_df, minor_read_counts_df, by = 'pos')                
 
-     		saveRDS(read_counts_df,  file = paste0(week_directory, '/', sample, '_', week, '_readcounts_chr_',chr,'.rds'))           
+     		       saveRDS(read_counts_df,  file = paste0(week_directory, '/', sample, '_', week, '_readcounts_chr_',chr,'.rds'))           
             } # For chr
       
       } # For week
