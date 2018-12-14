@@ -27,8 +27,8 @@ analyze_one <- function(i) {
   res <- matrix(nrow=nrow(pair[[i]]), ncol=5)
   
   for(j in 1:nrow(pair[[i]])) {
-    if(names(pair)[i] == rownames(pair[[i]])[j]) next
-    res[j,] <- tmp <- mle_pe(pair[[i]][j,,,])
+      if(names(pair)[i] == rownames(pair[[i]])[j]) next
+         res[j,] <- tmp <- mle_pe(pair[[i]][j,,,])
   }
   
   dimnames(res) <- list(rownames(pair[[i]]), names(tmp))
