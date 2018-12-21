@@ -15,6 +15,7 @@
 ### 5.) Results
 >> single_sample_results.R 
 >> pair_sample_results.R 
+
  
 ### 6.) Fix allele counts
 >> fix_allele_counts.R
