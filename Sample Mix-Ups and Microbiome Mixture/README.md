@@ -1,5 +1,5 @@
 
-### 1.) bowtie2 alignment
+### 1.) bowtie1 alignment
 >> bowtie alignment directory
 
 ### 2.) Generate pile up files
