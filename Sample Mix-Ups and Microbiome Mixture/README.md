@@ -10,3 +10,7 @@
 
 ### 4.) Count number of reads that overlap snps 
 >> get_readcounts.R
+
+
+### 5.) Summaries
+
