@@ -4,7 +4,7 @@
 
 ### Parallel imputed snps for each chromosome
 module load R/3.5.1
-for i in {18..19}
+for i in {1..19}
 do
 echo "#PBS -q batch
 #PBS -l nodes=1:ppn=8
@@ -107,3 +107,22 @@ do
   done
 done
 
+
+
+module load R/3.5.1
+Rscript mbmixture_analysis.R paired_results_wk6_all_v2.rds 6 25
+Rscript mbmixture_analysis.R paired_results_wk17_all_v2.rds 17 25
+Rscript mbmixture_analysis.R paired_results_wk24_all_v2.rds 24 25
+
+
+Rscript combine_results.R ~/week_6 'sample' 6
+Rscript combine_results.R ~/week_17 'sample' 17
+Rscript combine_results.R ~/week_24 'sample' 24
+Rscript combine_results.R ~/week_6 paired 6
+Rscript combine_results.R ~/week_17 paired 17
+Rscript combine_results.R ~/week_24 paired 24
+
+Rscript get_raw_counts.R 401 850
+Rscript get_alignment_counts.R 6
+Rscript get_alignment_counts.R 17
+Rscript get_alignment_counts.R 24
