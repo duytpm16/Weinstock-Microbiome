@@ -39,6 +39,13 @@ genotype <- readRDS("~/Desktop/Weinstock Microbiome/Original Genotypes/pomp_geno
 
 
 
+
+
+
+
+
+
+
 ```{r Subset samples by week, echo=FALSE}
 
 ### Get sampels with genotypes
@@ -69,6 +76,15 @@ w24_names <- paste0(paste0('DPDP.DO2.',original_w24_counts$Mouse), '.F')
 
 
 ```
+
+
+
+
+
+
+
+
+
 
 
 
@@ -110,6 +126,17 @@ samples_with_genotype_and_microbiome_counts <- c(NA,
 
 ```
 
+
+
+
+
+
+
+
+
+
+
+
 ```{r Mixture Samples, echo=FALSE}
 week_6_mixtures  <- paste0(paste0('DPDP.', c('DO2.444','DO2.492','DO2.507','DO2.541','DO2.552')), '.F')
 week_17_mixtures <- paste0(paste0('DPDP.', c('DO2.440','DO2.484','DO2.833','DO2.835','DO2.836','DO2.840','DO2.841','DO2.850')), '.F')
@@ -132,6 +159,15 @@ samples_with_genotype_and_microbiome_counts_and_no_mixture <- c(NA,
                                                                 length(samples_with_counts_and_genotypes_and_nomixtures_overlap))
 
 ```
+
+
+
+
+
+
+
+
+
 
 
 
