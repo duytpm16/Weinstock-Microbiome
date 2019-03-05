@@ -1,3 +1,4 @@
+### Options and Libraries
 options(stringsAsFactors = FALSE)
 library(tidyverse)
 library(qtl2)
@@ -47,6 +48,14 @@ metab_w24 <- metab %>%
                    `colnames<-`(gsub('protein.', '',colnames(.), fixed = TRUE)) %>%
                    `colnames<-`(paste0(gsub('mwgs.w24.R', 'DPDP.DO2.',colnames(.), fixed = TRUE),'.F')) %>%
                    t(.)
+
+
+
+
+
+
+
+
 
 
 # Rank Z function
@@ -103,6 +112,10 @@ covar_w24 <- model.matrix(~ diet, data = samples_w24)[,-1,drop = FALSE]
 
 
 
+
+
+
+
 dataset.metab.w6 <- list(annots = data.frame(),
                          covar  = NULL,
                          covar.factors = data.frame(),
@@ -130,6 +143,10 @@ dataset.metab.w24 <- list(annots = data.frame(),
                           norm = metab_w24,
                           rankz = metab_w24_rz, 
                           samples = samples_w24)
+
+
+
+
 
 
 
