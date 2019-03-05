@@ -104,6 +104,14 @@ samples_w24 <- samples %>%
 
 
 
+
+
+
+
+
+
+
+### Covariates for each week
 covar_w17 <- model.matrix(~ diet, data = samples_w17)[,-1,drop = FALSE]
 covar_w24 <- model.matrix(~ diet, data = samples_w24)[,-1,drop = FALSE]
 
@@ -115,7 +123,7 @@ covar_w24 <- model.matrix(~ diet, data = samples_w24)[,-1,drop = FALSE]
 
 
 
-
+### QTL viewer format
 dataset.metab.w6 <- list(annots = data.frame(),
                          covar  = NULL,
                          covar.factors = data.frame(),
