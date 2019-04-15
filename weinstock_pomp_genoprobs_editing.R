@@ -1,3 +1,26 @@
+#####################################################################################################################
+#
+#   This script is used to edit the POMP genoprobs after downloading from dodb.jax.org
+#
+#
+#
+#
+#   Input:
+#     1.) MegaMuga SNPs Annotation
+#     2.) Qtl2 genotype probability array from dodb.jax.org
+#
+#
+#   Output:
+#     1.) New .RData file containing new genoprobs, K, map, and markers
+#
+#
+#
+#
+#   Author: Duy Pham
+#   Date:   April 12th, 2019
+#   E-mail: duy.pham@jax.org
+#####################################################################################################################
+
 ### Options and Libraries
 options(stringsAsFactors = FALSE)
 library(dplyr)
