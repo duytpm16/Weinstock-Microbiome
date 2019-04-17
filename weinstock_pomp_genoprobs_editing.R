@@ -14,8 +14,6 @@ map <- readRDS("~/Desktop/Weinstock Pomp Microbiome/Genotypes/Old/pomp_map_qtl2.
 
 genoprobs <- probs_qtl2_to_doqtl(genoprobs)
 genoprobs <- genoprobs[grep('DO2', dimnames(genoprobs)[[1]]),,]
-genoprobs <- genoprobs[-which(dimnames(genoprobs)[[1]] %in% c('DPDP.DO2.420.F', 'DPDP.DO2.595.F')),,]
-dimnames(genoprobs)[[1]] <- gsub('.1', '', dimnames(genoprobs)[[1]], fixed = TRUE)
 dimnames(genoprobs)[[1]] <- gsub('DPDP.', '', dimnames(genoprobs)[[1]], fixed = TRUE)
 dimnames(genoprobs)[[1]] <- gsub('.F', '', dimnames(genoprobs)[[1]], fixed = TRUE)
 dimnames(genoprobs)[[1]] <- gsub('.', '-', dimnames(genoprobs)[[1]], fixed = TRUE)
