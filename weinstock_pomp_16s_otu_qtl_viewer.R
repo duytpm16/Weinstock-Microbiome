@@ -225,7 +225,7 @@ annot.phenotype <- data.frame(data.name   = c(colnames(sampleSheet_w17), colname
                               is.pheno    = c(rep(FALSE, ncol(sampleSheet_w17)), rep(TRUE, ncol(otu_w17_count))),
                               is.derived  = FALSE,
                               omit        = c(rep(FALSE, 4), TRUE, rep(FALSE, ncol(sampleSheet_w17) - 5 + ncol(otu_w17_count))),
-                              use.covar   = NA)
+                              use.covar   = c(rep(NA, ncol(sampleSheet_w17)), rep('diet', ncol(otu_w17_count)))
 
 
 
