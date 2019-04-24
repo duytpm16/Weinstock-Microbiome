@@ -10,11 +10,11 @@ library(qtl2)
 
 
 ### Load data
-load("~/Desktop/Weinstock Pomp Microbiome/Genotypes/Old/weinstock_pomp_genoprobs_map_markers_K.RData")
-metadata <- read.csv("~/Desktop/Weinstock Pomp Microbiome/Phenotypes/DO1DO2micecombined_Final.csv")
-sampleSheet <- read.xlsx(xlsxFile = "~/Desktop/Weinstock Pomp Microbiome/16S/taxonomic_abundance_filtered_unnormalized_20181004.xlsx")
-taxa_table  <- read.xlsx(xlsxFile = "~/Desktop/Weinstock Pomp Microbiome/16S/taxonomic_abundance_filtered_unnormalized_20181004.xlsx", sheet = 'OTU Taxonomy')
-otu_count   <- read.xlsx(xlsxFile = "~/Desktop/Weinstock Pomp Microbiome/16S/taxonomic_abundance_filtered_unnormalized_20181004.xlsx", sheet = 'otu_abundance')
+load("~/Desktop/Weinstock_Pomp_Microbiome/Genotypes/Original Genotypes/weinstock_pomp_genoprobs_map_markers_K.RData")
+metadata <- read.csv("~/Desktop/Weinstock_Pomp_Microbiome/Phenotypes/Mouse Info/DO1DO2micecombined_Final.csv")
+sampleSheet <- read.xlsx(xlsxFile = "~/Desktop/Weinstock_Pomp_Microbiome/Phenotypes/16S/Raw Counts/taxonomic_abundance_filtered_unnormalized_20181004.xlsx")
+taxa_table  <- read.xlsx(xlsxFile = "~/Desktop/Weinstock_Pomp_Microbiome/Phenotypes/16S/Raw Counts/taxonomic_abundance_filtered_unnormalized_20181004.xlsx", sheet = 'OTU Taxonomy')
+otu_count   <- read.xlsx(xlsxFile = "~/Desktop/Weinstock_Pomp_Microbiome/Phenotypes/16S/Raw Counts/taxonomic_abundance_filtered_unnormalized_20181004.xlsx", sheet = 'otu_abundance')
 
 
 
@@ -49,16 +49,16 @@ metadata$CtClr[metadata$CtClr == 4] <- 'other'
 
 ### Create an annot.sample for each week
 sampleSheet <- sampleSheet[!duplicated(sampleSheet),]  %>% 
-                    arrange(Mouse, Week) %>% 
-                    mutate(mouse.id   = paste0('DO2-', Mouse), 
-                           sex        = 'F', 
-                           generation = '11',
-                           coat.color = metadata$CtClr[match(mouse.id, metadata$MouseID)],
-                           age.of.death = metadata$AgeSac[match(mouse.id, metadata$MouseID)],
-                           original.id = paste0('16s-', SampleName)) %>% 
-                    dplyr::rename(diet = Diet,
-                           week = Week) %>%
-                    select(mouse.id, coat.color, sex, diet, week, generation, age.of.death, original.id)
+  arrange(Mouse, Week) %>% 
+  mutate(mouse.id   = paste0('DO2-', Mouse), 
+         sex        = 'F', 
+         generation = '11',
+         coat.color = metadata$CtClr[match(mouse.id, metadata$MouseID)],
+         age.of.death = metadata$AgeSac[match(mouse.id, metadata$MouseID)],
+         original.id = paste0('16s-', SampleName)) %>% 
+  dplyr::rename(diet = Diet,
+                week = Week) %>%
+  select(mouse.id, coat.color, sex, diet, week, generation, age.of.death, original.id)
 
 sampleSheet_w6  <- sampleSheet[sampleSheet$week == 6,] %>% mutate(diet = factor(diet))
 sampleSheet_w17 <- sampleSheet[sampleSheet$week == 17,] %>% mutate(diet = factor(diet))
@@ -82,10 +82,10 @@ sampleSheet_w24 <- sampleSheet_w24[sampleSheet_w24$mouse.id %in% intersect_sampl
 
 ### Get raw counts for each week. 
 otu_count <- otu_count %>%
-                  remove_rownames() %>%
-                  column_to_rownames("Taxon") %>%
-                  `rownames<-`(paste0('OTU-', gsub('usearchOTU','',rownames(.))))
-                              
+  remove_rownames() %>%
+  column_to_rownames("Taxon") %>%
+  `rownames<-`(paste0('OTU-', gsub('usearchOTU','',rownames(.))))
+
 
 otu_w6_count  <- otu_count %>% select(sampleSheet_w6$original.id)  %>% `colnames<-`(sampleSheet_w6$mouse.id[match(colnames(.),  sampleSheet_w6$original.id)])  %>% t(.)
 otu_w17_count <- otu_count %>% select(sampleSheet_w17$original.id) %>% `colnames<-`(sampleSheet_w17$mouse.id[match(colnames(.), sampleSheet_w17$original.id)]) %>% t(.)
@@ -128,6 +128,19 @@ stopifnot(colnames(otu_w6_count) == colnames(otu_w24_count))
 
 
 
+### DESeq2 VST
+form <- formula(~ 1)
+dds_w6  <- DESeqDataSetFromMatrix(countData = t(otu_w6_count),  colData  = sampleSheet_w6, design = form) 
+dds_w17 <- DESeqDataSetFromMatrix(countData = t(otu_w17_count), colData = sampleSheet_w17, design = form) 
+dds_w24 <- DESeqDataSetFromMatrix(countData = t(otu_w24_count), colData = sampleSheet_w24, design = form) 
+
+otu_vst_w6  <- t(as.matrix(assay(varianceStabilizingTransformation(dds_w6))))
+otu_vst_w17 <- t(as.matrix(assay(varianceStabilizingTransformation(dds_w17))))
+otu_vst_w24 <- t(as.matrix(assay(varianceStabilizingTransformation(dds_w24))))
+
+
+
+
 
 
 ### Log2fold change
@@ -154,7 +167,9 @@ rankZ = function(x) {
 otu_w6_w17_change_rz  <- apply(otu_w6_w17_change, 2, rankZ)
 otu_w6_w24_change_rz  <- apply(otu_w6_w24_change, 2, rankZ)
 otu_w17_w24_change_rz <- apply(otu_w17_w24_change, 2, rankZ)
-
+otu_w6_vst_rz  <- apply(otu_vst_w6,  2, rankZ)
+otu_w17_vst_rz <- apply(otu_vst_w17, 2, rankZ)
+otu_w24_vst_rz <- apply(otu_vst_w24, 2, rankZ)
 
 
 
@@ -227,50 +242,91 @@ annot.phenotype <- data.frame(data.name   = c(colnames(sampleSheet_w17), colname
 
 
 ### Qtl2 viewer format
-dataset.w6.w17.change <- list(annot.phenotype = as_tibble(annot.phenotype),
-                              annot.samples   = as_tibble(sampleSheet_w17),
-                              covar.matrix    = change.covar,
-                              covar.info      = as_tibble(covar.info),
-                              data = list(raw.w6   = otu_w6_count,
-                                          raw.w17  = otu_w17_count,
-                                          log2fold = otu_w6_w17_change,
-                                          rz       = otu_w6_w17_change_rz),
-                              datatype = 'phenotype',
-                              display.name = 'Pomp 16s Microbiome: Week 6 - Week 17 Change',
-                              lod.peaks = list())
+dataset.otu.w6 <- list(annot.phenotype = as_tibble(annot.phenotype),
+                       annot.samples   = as_tibble(sampleSheet_w6),
+                       covar.matrix    = NULL,
+                       covar.info      = as_tibble(covar.info),
+                       data = list(raw = otu_w6_count,
+                                   norm = otu_vst_w6,
+                                   rz  = otu_w6_vst_rz),
+                       datatype = 'phenotype',
+                       display.name = 'Pomp 16s Microbiome: OTU Week 6',
+                       lod.peaks = list())
 
 
-dataset.w6.w24.change <- list(annot.phenotype = as_tibble(annot.phenotype),
-                              annot.samples   = as_tibble(sampleSheet_w24),
-                              covar.matrix    = change.covar,
-                              covar.info      = as_tibble(covar.info),
-                              data = list(raw.w6   = otu_w6_count,
-                                          raw.w24  = otu_w24_count,
-                                          log2fold = otu_w6_w24_change,
-                                          rz       = otu_w6_w24_change_rz),
-                              datatype = 'phenotype',
-                              display.name = 'Pomp 16s Microbiome: Week 6 - Week 24 Change',
-                              lod.peaks = list())
 
 
-dataset.w17.w24.change <- list(annot.phenotype = as_tibble(annot.phenotype),
-                               annot.samples   = as_tibble(sampleSheet_w17),
-                               covar.matrix    = change.covar,
-                               covar.info      = as_tibble(covar.info),
-                               data = list(raw.w17  = otu_w17_count,
-                                           raw.w24  = otu_w24_count,
-                                           log2fold = otu_w17_w24_change,
-                                           rz       = otu_w17_w24_change_rz),
-                               datatype = 'phenotype',
-                               display.name = 'Pomp 16s Microbiome: Week 17 - Week 24 Change',
-                               lod.peaks = list())
+dataset.otu.w17 <- list(annot.phenotype = as_tibble(annot.phenotype),
+                        annot.samples   = as_tibble(sampleSheet_w17),
+                        covar.matrix    = change.covar,
+                        covar.info      = as_tibble(covar.info),
+                        data = list(raw = otu_w17_count,
+                                    norm = otu_vst_w17,
+                                    rz   = otu_w17_vst_rz),
+                        datatype = 'phenotype',
+                        display.name = 'Pomp 16s Microbiome: OTU Week 17',
+                        lod.peaks = list())
+
+
+dataset.otu.w24 <- list(annot.phenotype = as_tibble(annot.phenotype),
+                        annot.samples   = as_tibble(sampleSheet_w24),
+                        covar.matrix    = change.covar,
+                        covar.info      = as_tibble(covar.info),
+                        data = list(raw = otu_w24_count,
+                                    norm = otu_vst_w24,
+                                    rz   = otu_w24_vst_rz),
+                                  datatype = 'phenotype',
+                                  display.name = 'Pomp 16s Microbiome: OTU Week 24',
+                                  lod.peaks = list())
+
+
+
+
+dataset.otu.w6.w17.change <- list(annot.phenotype = as_tibble(annot.phenotype),
+                                  annot.samples   = as_tibble(sampleSheet_w17),
+                                  covar.matrix    = change.covar,
+                                  covar.info      = as_tibble(covar.info),
+                                  data = list(raw.w17  = otu_w6_count,
+                                              raw.w24  = otu_w17_count,
+                                              log2fold = otu_w6_w17_change,
+                                              rz       = otu_w6_w17_change_rz),
+                                  datatype = 'phenotype',
+                                  display.name = 'Pomp 16s Microbiome: OTU Week 6 - Week 17 Change',
+                                  lod.peaks = list())
+
+
+
+dataset.otu.w6.w24.change <- list(annot.phenotype = as_tibble(annot.phenotype),
+                                  annot.samples   = as_tibble(sampleSheet_w24),
+                                  covar.matrix    = change.covar,
+                                  covar.info      = as_tibble(covar.info),
+                                  data = list(raw.w17  = otu_w6_count,
+                                              raw.w24  = otu_w24_count,
+                                              log2fold = otu_w6_w24_change,
+                                              rz       = otu_w6_w24_change_rz),
+                                  datatype = 'phenotype',
+                                  display.name = 'Pomp 16s Microbiome: OTU Week 6 - Week 24 Change',
+                                  lod.peaks = list())
+
+
+dataset.otu.w17.w24.change <- list(annot.phenotype = as_tibble(annot.phenotype),
+                                   annot.samples   = as_tibble(sampleSheet_w17),
+                                   covar.matrix    = change.covar,
+                                   covar.info      = as_tibble(covar.info),
+                                   data = list(raw.w17  = otu_w17_count,
+                                               raw.w24  = otu_w24_count,
+                                               log2fold = otu_w17_w24_change,
+                                               rz       = otu_w17_w24_change_rz),
+                                   datatype = 'phenotype',
+                                   display.name = 'Pomp 16s Microbiome: OTU Week 17 - Week 24 Change',
+                                   lod.peaks = list())
 
 
 
 
 
 rm(list = ls()[!ls() %in% c(grep('dataset[.]', ls(), value = TRUE),
-                     'genoprobs', 'map', 'markers', 'K')])
+                            'genoprobs', 'map', 'markers', 'K')])
 
 
 
@@ -283,4 +339,4 @@ rm(list = ls()[!ls() %in% c(grep('dataset[.]', ls(), value = TRUE),
 
 
 ### Save
-save.image(file = '~/Desktop/weinstock_pomp_16s_microbiome_qtl_viewer.RData')
+save.image(file = '~/Desktop/Weinstock_Pomp_Microbiome/Phenotypes/16S/log2fold/weinstock_pomp_16s_microbiome_qtl_viewer_v2.RData')
