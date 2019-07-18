@@ -11,6 +11,9 @@ select <- dplyr::select
 
 
 
+
+
+
 ### Load data
 load("~/Desktop/Weinstock_Pomp_Microbiome/Genotypes/Original Genotypes/weinstock_pomp_genoprobs_map_markers_K.RData")
 metadata <- read.csv("~/Desktop/Weinstock_Pomp_Microbiome/Phenotypes/Mouse Info/DO1DO2micecombined_Final.csv")
@@ -24,9 +27,11 @@ otu_count   <- read.xlsx(xlsxFile = "~/Desktop/Weinstock_Pomp_Microbiome/Phenoty
 
 
 
+
+
 ### Editing taxa table
 colnames(taxa_table) <- c('OTU', 'domain', 'phylum', 'class', 'order', 'family', 'genus')
-taxa_table <- apply(taxa_table, 2, FUN = function(x) gsub('"', "", x, fixed = TRUE))
+taxa_table <- apply(taxa_table, 2, FUN = function(x) gsub('"', "",  x, fixed = TRUE))
 taxa_table <- apply(taxa_table, 2, FUN = function(x) gsub('_', " ", x, fixed = TRUE))
 taxa_table <- taxa_table %>% as.data.frame() %>% select(OTU, genus, family, order, class, phylum, domain)
 taxa_table$OTU <- paste0('OTU-', gsub('usearchOTU','',taxa_table$OTU))
@@ -35,7 +40,9 @@ taxa_table$OTU <- paste0('OTU-', gsub('usearchOTU','',taxa_table$OTU))
 
 
 
-### Adding coat color
+
+
+### Adding coat color to metadata
 metadata$MouseID <- gsub('.','-',metadata$MouseID, fixed = TRUE)
 metadata$CtClr[metadata$CtClr == 1] <- 'white'
 metadata$CtClr[metadata$CtClr == 2] <- 'agouti'
@@ -51,16 +58,16 @@ metadata$CtClr[metadata$CtClr == 4] <- 'other'
 
 ### Create an annot.sample for each week
 sampleSheet <- sampleSheet[!duplicated(sampleSheet),]  %>% 
-  arrange(Mouse, Week) %>% 
-  mutate(mouse.id   = paste0('DO2-', Mouse), 
-         sex        = 'F', 
-         generation = '11',
-         coat.color = metadata$CtClr[match(mouse.id, metadata$MouseID)],
-         age.of.death = metadata$AgeSac[match(mouse.id, metadata$MouseID)],
-         original.id = paste0('16s-', SampleName)) %>% 
-  dplyr::rename(diet = Diet,
-                week = Week) %>%
-  select(mouse.id, coat.color, sex, diet, week, generation, age.of.death, original.id)
+                  arrange(Mouse, Week) %>% 
+                  mutate(mouse.id   = paste0('DO2-', Mouse), 
+                         sex        = 'F', 
+                         generation = '11',
+                         coat.color = metadata$CtClr[match(mouse.id, metadata$MouseID)],
+                         age.of.death = metadata$AgeSac[match(mouse.id, metadata$MouseID)],
+                         original.id = paste0('16s-', SampleName)) %>% 
+                  dplyr::rename(diet = Diet,
+                                week = Week) %>%
+                  select(mouse.id, coat.color, sex, diet, week, generation, age.of.death, original.id)
 
 sampleSheet_w6  <- sampleSheet[sampleSheet$week == 6,] %>% mutate(diet = factor(diet))
 sampleSheet_w17 <- sampleSheet[sampleSheet$week == 17,] %>% mutate(diet = factor(diet))
@@ -95,7 +102,7 @@ otu_w24_count <- otu_count %>% select(sampleSheet_w24$original.id) %>% `colnames
 
 
 
-keep_w6 <- unname(apply(otu_w6_count, 2, function(x) mean(x > 0) > 0.25))
+keep_w6  <- unname(apply(otu_w6_count,  2, function(x) mean(x > 0) > 0.25))
 keep_w17 <- unname(apply(otu_w17_count, 2, function(x) mean(x > 0) > 0.25))
 keep_w24 <- unname(apply(otu_w24_count, 2, function(x) mean(x > 0) > 0.25))
 
@@ -277,9 +284,9 @@ dataset.otu.w24 <- list(annot.phenotype = as_tibble(annot.phenotype),
                         data = list(raw = otu_w24_count,
                                     norm = otu_vst_w24,
                                     rz   = otu_w24_vst_rz),
-                                  datatype = 'phenotype',
-                                  display.name = 'Pomp 16s Microbiome: OTU Week 24',
-                                  lod.peaks = list())
+                        datatype = 'phenotype',
+                        display.name = 'Pomp 16s Microbiome: OTU Week 24',
+                        lod.peaks = list())
 
 
 
