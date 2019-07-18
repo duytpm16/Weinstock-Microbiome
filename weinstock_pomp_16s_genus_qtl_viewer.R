@@ -3,7 +3,7 @@ library(tidyverse)
 library(openxlsx)
 library(qtl2convert)
 library(qtl2)
-
+select <- dplyr::select
 
 
 
