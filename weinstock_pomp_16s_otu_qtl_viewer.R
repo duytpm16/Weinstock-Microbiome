@@ -1,10 +1,12 @@
 ### Options and Libraries
 options(stringsAsFactors = FALSE)
 library(tidyverse)
-library(openxlsx)
 library(qtl2convert)
+library(tidyverse)
+library(openxlsx)
+library(DESeq2)
 library(qtl2)
-
+select <- dplyr::select
 
 
 
