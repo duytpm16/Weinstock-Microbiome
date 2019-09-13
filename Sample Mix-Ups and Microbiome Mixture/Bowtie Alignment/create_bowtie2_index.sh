@@ -15,7 +15,7 @@ cd chromFA/
 
 
 
-### Concatenate fasta files. Only getting chromosomes 1-19 and X.
+### Concatenate fasta files. Only getting chromosomes 1-19.
 fasta_files=""
 for i in {1..19};
 do
