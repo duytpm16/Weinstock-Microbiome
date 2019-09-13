@@ -1,12 +1,5 @@
+#!/bin/bash
 #PBS -l nodes=1:ppn=1
-#PBS batch
-
-module load bowtie/1.1.2
-module load samtools/1.8
-
-
-
-
 
 
 
