@@ -40,4 +40,4 @@ echo $fasta_files
 
 
 ### Build mm10 index
-bowtie2-build $fasta_files mm10.autosome
+bowtie2-build $fasta_files mm10.bwt2.autosome
