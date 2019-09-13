@@ -22,9 +22,6 @@ do
   fasta_files="${fasta_files}chr${i}.fa,";
 done
 
-fasta_files="${fasta_files}chrX.fa"
-
-
 
 
 
