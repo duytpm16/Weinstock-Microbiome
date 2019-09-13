@@ -14,10 +14,8 @@ module load samtools/1.8
 ### Variables to change
 # 1.) Directory where bwt index are stored
 # 2.) Directory where the fastq are stored
-# 3.) Array of chromosomes
 BWT_DIR="/home/phamd/chromFa/mm10.bwt1.autosome"
 MGS_DIR="/projects/churchill-lab/data/Weinstock/Pomp_Benson/host_fastq/"
-chromosome=("1" "2" "3" "4" "5" "6" "7" "8" "9" "10" "11" "12" "13" "14" "15" "16" "17" "18" "19")
 cd $MGS_DIR
 
 
