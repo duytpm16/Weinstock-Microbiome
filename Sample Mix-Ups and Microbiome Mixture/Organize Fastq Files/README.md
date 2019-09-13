@@ -7,4 +7,4 @@
 
 3.) Organize the fastq files 
 
-4.) Unzip/zip the .gz files as needed with auto_gunzip.sh/auto_gzip.sh
+4.) Unzip/zip the .gz files as needed (auto_gunzip.sh / auto_gzip.sh)
