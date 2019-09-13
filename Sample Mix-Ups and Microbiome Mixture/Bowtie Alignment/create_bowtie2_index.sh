@@ -8,7 +8,7 @@ module load bowtie2/2.3.1
 
 ### Change to directory containing mm10 fasta files downloaded from:
 #     http://hgdownload.cse.ucsc.edu/goldenPath/mm10/bigZips/chromFa.tar.gz
-cd chromFA/
+cd /home/phamd/chromFA/
 
 
 
