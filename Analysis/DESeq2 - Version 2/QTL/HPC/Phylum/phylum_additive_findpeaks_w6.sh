@@ -4,17 +4,17 @@
 #   I used a 95% Bayesian confidence interval to estimate interval of QTLs.
 #   See https://github.com/duytpm16/qtl2-HPC-pipeline for input details.
 
-#PBS -l nodes=1:ppn=2
+#PBS -l nodes=1:ppn=8
 #PBS -q batch
 #PBS -l walltime=72:00:00
 module load R/3.5.1
 
 
 viewer_data='weinstock_pomp_16s_microbiome_qtl_viewer_v4.RData'
-scan1_mat='otu_w6_additive_scan.rds'
-dataset_expr='dataset.otu.w6|data|rz'
+scan1_mat='phylum_w6_additive_scan.rds'
+dataset_expr='dataset.phylum.w6|data|rz'
 thr='6'
-num_cores='2'
+num_cores='8'
 type_scan='additive'
 drop='.95'
 cis_threshold='NA'
