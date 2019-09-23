@@ -1,3 +1,9 @@
+### Shell script to run qtl2 'findpeaks' on HPC with data in QTL viewer format.
+#   This is for additive scan (type_scan='additive', int_mat = 'NA').
+#   I save all QTLs with LOD > 6 (thr=6).
+#   I used a 95% Bayesian confidence interval to estimate interval of QTLs.
+#   See https://github.com/duytpm16/qtl2-HPC-pipeline for input details.
+
 #PBS -l nodes=1:ppn=2
 #PBS -q batch
 #PBS -l walltime=72:00:00
