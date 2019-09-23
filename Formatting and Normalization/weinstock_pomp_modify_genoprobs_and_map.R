@@ -1,12 +1,13 @@
 #################################################################################
 #   This script is used to modify the genoprobs and map original .rds file.
 #     1.) I am changing the sample name to DO2.# instead of DPDP.DO2.#.F
-#     2.) Remove all DO1 cohort samples to reduce memory. There were no microbiome for these samples
+#     2.) Remove all DO1 cohort samples to reduce memory. There were no microbiome counts for these samples
 #     3.) Create a markers dataframe (map list -> dataframe)
 #     4.) Calculate kinship matrix
 #
 #   Genoprobs obtained on cadillac HPC: /projects/churchill-lab/data/Weinstock/Pomp_Benson/genotypes/pomp_genoprobs_qtl2.rds
 #   map list obtained on cadillac HPC: /projects/churchill-lab/data/Weinstock/Pomp_Benson/genotypes/pomp_map_qtl2.rds
+#
 #
 #
 #   Input:
