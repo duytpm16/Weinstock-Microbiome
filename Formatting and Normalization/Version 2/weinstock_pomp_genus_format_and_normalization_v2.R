@@ -119,9 +119,9 @@ taxa_table <- taxa_table %>%
 
 ### Get raw counts for each week. 
 genus_count <- genus_count %>%
-                mutate(Taxon = gsub('"', '', Taxon, fixed = TRUE)) %>%
-                mutate(Taxon = gsub('_', ' ', Taxon, fixed = TRUE)) %>%
-                column_to_rownames("Taxon")
+                  mutate(Taxon = gsub('"', '', Taxon, fixed = TRUE)) %>%
+                  mutate(Taxon = gsub('_', ' ', Taxon, fixed = TRUE)) %>%
+                  column_to_rownames("Taxon")
 
 
 genus_w6_count  <- genus_count %>% select(sampleSheet_w6$original.id)  %>% `colnames<-`(sampleSheet_w6$mouse.id[match(colnames(.),  sampleSheet_w6$original.id)])  %>% t(.)
