@@ -34,6 +34,9 @@ for(i in chr){
     
     
     
+  
+  
+  
     
     # Imput snps for chromosome. Need to break into chunks to run if there are over 1m SNPs
     if(nrow(snpinfo) > 1e6){
@@ -55,6 +58,9 @@ for(i in chr){
 
     
     
+  
+  
+  
     
     
     # Pull the alleles from the SNP table
