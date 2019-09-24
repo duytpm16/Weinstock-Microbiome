@@ -20,6 +20,9 @@ chr <- c('1',2:19)
 
 
 
+
+
+
 ### Imputed SNPs begin
 for(i in chr){
   
@@ -33,10 +36,10 @@ for(i in chr){
     snpinfo <- snpinfo[!complex,]
     
     
+  
+  
+  
     
-  
-  
-  
     
     # Imput snps for chromosome. Need to break into chunks to run if there are over 1m SNPs
     if(nrow(snpinfo) > 1e6){
@@ -45,16 +48,23 @@ for(i in chr){
        for(j in 1:length(snps)){
            index_snp <- snps[[j]] %>% index_snps(map = map, snpinfo = .) %>% mutate(index = 1:nrow(.))
            snp_pr    <- genoprob_to_snpprob(genoprobs = genoprob, snpinfo = index_snp)
-           imp_snps  <- ifelse(j == 1, maxmarg(snp_pr, cores = 32)[[1]], cbind(imp_snps, maxmarg(snp_pr, cores = 32)[[1]]))
+           
+           if(j == 1){
+              imp_snps <- maxmarg(probs = snp_pr, cores = 32)[[1]]
+           }else{
+              imp_snps <- cbind(imp_snps, maxmarg(probs = snp_pr, cores = 32)[[1]])
+           }
        }
        
+      
+     
     }else{
        index_snp <- snpinfo %>% index_snps(map = map, snpinfo = .) %>% mutate(index = 1:nrow(.)) 
        snp_pr    <- genoprob_to_snpprob(genoprobs = genoprob, snpinfo = index_snp)
        imp_snps  <- maxmarg(snp_pr, cores = 32)[[1]]
     }
   
-    stopifnot(ncol(imp_snps) == nrow(snpinfo))
+    print(dim(imp_snps))
 
     
     
@@ -70,7 +80,7 @@ for(i in chr){
     
     
     # Save as .Rdata file for chromosome
-    save(imp_snps, snpinfo, file=paste0("imp_snp_", i, ".Rdata"))
+    save(imp_snps, snpinfo, file=paste0("/projects/churchill-lab/data/Weinstock/Pomp_Benson/fastq/imp_snp_", i, ".Rdata"))
     
     print(i)
 }
