@@ -105,7 +105,7 @@ do
 	  # Creating dirctory to store bowtie1 results
           cd $SAMPLE_WEEK_DIR
           mkdir bowtie1_run_v2
-          bam_file="${SAMPLE_WEEK_DIR}bowtie1_run_v2/${sample}_${week}_bowtie1"
+          bam_file="${SAMPLE_WEEK_DIR}bowtie1_run_v2/${sample}_${weeks}_bowtie1"
 
 
 
