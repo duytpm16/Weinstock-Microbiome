@@ -43,19 +43,21 @@ do
      weeks=('Week_6' 'Week_17' 'Week_24')
      for j in ${weeks[@]};
      do
-       # Change to the Pair_End directory within the  week directory 
+       # Getting directory names
        SAMPLE_WEEK_DIR="${SAMPLE_DIR}${j}/"
        SAMPLE_WEEK_PAIR_END_DIR="${SAMPLE_WEEK_DIR}Pair_End/"
        SAMPLE_WEEK_SINGLETON_DIR="${SAMPLE_WEEK_DIR}Singletons/"    
     
-       echo $SAMPLE_WEEK_DIR	
+    
+
+       # If the week exists for the sample... 
        if [ -d "$SAMPLE_WEEK_DIR" ]; 
        then
-       	  
+
 	  # Get the singleton reads
           cd $SAMPLE_WEEK_SINGLETON_DIR
-          
 	  temp=`find . -iname '*b_host.fastq.3' | wc -l`
+	  
           if [ $temp == 1 ]
           then
              singleton_1a=`ls | grep *a_host.fastq.3`
@@ -67,6 +69,7 @@ do
              singleton=`ls | grep *fastq.3`
              singleton="${SAMPLE_WEEK_SINGLETON_DIR}${singleton}"
           fi
+
 
 
 
@@ -92,20 +95,28 @@ do
 	     pair_end_2="$SAMPLE_WEEK_PAIR_END_DIR$pair_end_2"
           fi
 
+	  echo "Sample-week = $SAMPLE_WEEK_DIR"
+          echo "Pair-end 1 = ${pair_end_1}"
+          echo "Pair-end 2 = ${pair_end_2}"
+          echo "Singleton  = ${singleton} "
 
-          echo ${pair_end_1}
-          echo ${pair_end_2}
-          echo ${singleton}
 
+
+	  # Creating dirctory to store bowtie1 results
           cd $SAMPLE_WEEK_DIR
           mkdir bowtie1_run_v2
-       	
           bam_file="${SAMPLE_WEEK_DIR}bowtie1_run_v2/${sample}_${week}_bowtie1"
 
+
+
+	  # Bowtie1 begin
           bowtie -q --quiet --sam -m 1 -p 2 ${BWT_DIR} -1 ${pair_end_1} -2 ${pair_end_2} -s ${singleton} | samtools view -bS - > "${bam_file}.bam"
 
+	  # Sort bam file
           samtools sort "${bam_file}.bam" > "${bam_file}_sorted.bam"
           samtools index "${bam_file}_sorted.bam"
+
+
 
           cd ${SAMPLE_DIR};
        fi
