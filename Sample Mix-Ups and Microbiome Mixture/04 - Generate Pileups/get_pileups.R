@@ -64,7 +64,7 @@ for(i in start:end){
     
        # Loop through each week directory within the MGS_DO_* directory 
        for(week in list.dirs(samples_directory, recursive = FALSE, full.names = FALSE)){
-           week_directory <- paste0(samples_directory,'/',week,'/bowtie1_run_v2')
+           week_directory <- paste0(samples_directory,'/',week,'/bowtie1_run')
            print(week_directory)
            setwd(week_directory)
         
