@@ -42,7 +42,7 @@ save_directory       <- paste0(home_directory,'week_',week,'/')             # Di
 ### Change directory to where fastq are store and get sample ids
 setwd(fastq_directory)
 sample_num <- sapply(dir(), function(s) unlist(strsplit(s, '_'))[3])
-sample_id  <- paste0('DO2.',sample_num)
+sample_id  <- paste0('DPDP.DO2.',sample_num,'.F')
 
 
 
