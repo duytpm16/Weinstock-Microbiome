@@ -96,4 +96,4 @@ snpinfo <- snpinfo[snpinfo$snp_id %in% colnames(imp_snps),]
 
 
 # Save as .Rdata file for chromosome
-save(imp_snps, snpinfo, file=paste0("/projects/churchill-lab/data/Weinstock/Pomp_Benson/fastq/imp_snp_", chrom, ".Rdata"))
+save(imp_snps, snpinfo, file=paste0("/projects/churchill-lab/data/Weinstock/Pomp_Benson/genotypes/imputed_snps/imp_snp_", chrom, ".Rdata"))
