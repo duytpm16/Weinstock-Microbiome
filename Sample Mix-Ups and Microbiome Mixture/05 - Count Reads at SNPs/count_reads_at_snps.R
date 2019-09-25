@@ -36,12 +36,6 @@ setwd(fastq_directory)
 
 
 
-
-
-
-
-
-
 ### Loop through each MGS_DO_* directory
 for(i in start:end){
   
