@@ -68,43 +68,41 @@ names(sample_results) <- sample_id
 ### Loop through each MGS_DO_* directory
 for(index in 1:length(sample_num)){
   
-  # Get directory name
-  sample <- paste0('MGS_DO_', sample_num[index])
-  sample_week_directory <- paste0(fastq_directory, sample, '/Week_', week,'/bowtie1_run_v2')
+    # Get directory name
+    sample <- paste0('MGS_DO_', sample_num[index])
+    sample_week_directory <- paste0(fastq_directory, sample, '/Week_', week,'/bowtie1_run_v2')
   
   
   
   
   
-  # Change to MGS_DO_* directory and week directory if it exists
-  if(dir.exists(sample_week_directory)){
-     setwd(sample_week_directory)
-     print(sample_week_directory)
-     print(sample)  
+    # Change to MGS_DO_* directory and week directory if it exists
+    if(dir.exists(sample_week_directory)){
+       setwd(sample_week_directory)
+       print(sample_week_directory)
+       print(sample)  
     
     
     
     
     
     
-     # Read in read counts of one chromosome of one sample 
-     sample_read_counts <- readRDS(paste0(sample,'_Week_',week,'_readcounts_chr_',chr,'.rds'))
+       # Read in read counts of one chromosome of one sample 
+       sample_read_counts <- readRDS(paste0(sample,'_Week_',week,'_readcounts_chr_',chr,'.rds'))
  
     
   
     
     
     
-    # Making sure all positions and snp id are the same
-    aligning_pos           <- intersect(sample_read_counts$pos, index_snpinfo$pos_bp)
+       # Making sure all positions and snp id are the same
+       aligning_pos           <- intersect(sample_read_counts$pos, index_snpinfo$pos_bp)
     
-    filtered_index_snpinfo <- index_snpinfo[index_snpinfo$pos_bp %in% aligning_pos,]
-    sample_read_counts     <- sample_read_counts[sample_read_counts$pos %in% aligning_pos,]
-    imp_snps_col           <- colnames(imp_snps)[colnames(imp_snps) %in% filtered_index_snpinfo$snp]
-    
-    
-    print(length(imp_snps_col))
-    
+       filtered_index_snpinfo <- index_snpinfo[index_snpinfo$pos_bp %in% aligning_pos,]
+       sample_read_counts     <- sample_read_counts[sample_read_counts$pos %in% aligning_pos,]
+       imp_snps_col           <- colnames(imp_snps)[colnames(imp_snps) %in% filtered_index_snpinfo$snp]
+     
+       print(length(imp_snps_col))
     
     
     
@@ -112,20 +110,21 @@ for(index in 1:length(sample_num)){
     
     
     
-    # Create object to contain the results for the single samples
-    sample_results[[index]]           <- array(0, dim=c(nrow(imp_snps), 3, 2))
-    dimnames(sample_results[[index]]) <- list(rownames(imp_snps), c("AA", "AB", "BB"), c("A", "B"))
+    
+       # Create object to contain the results for the single samples
+       sample_results[[index]]           <- array(0, dim=c(nrow(imp_snps), 3, 2))
+       dimnames(sample_results[[index]]) <- list(rownames(imp_snps), c("AA", "AB", "BB"), c("A", "B"))
     
     
     
-    for(i in 1:nrow(imp_snps)) {
-        g <- imp_snps[i, imp_snps_col]
-      
-        for(j in 1:3) {
-            sample_results[[index]][i,j,1] <- sum(sample_read_counts$n1[!is.na(g) & g==j])
-            sample_results[[index]][i,j,2] <- sum(sample_read_counts$n2[!is.na(g) & g==j])
-        } # for j
-    } # for i
+       for(i in 1:nrow(imp_snps)) {
+           g <- imp_snps[i, imp_snps_col]
+        
+           for(j in 1:3) {
+               sample_results[[index]][i,j,1] <- sum(sample_read_counts$n1[!is.na(g) & g==j])
+               sample_results[[index]][i,j,2] <- sum(sample_read_counts$n2[!is.na(g) & g==j])
+           } # for j
+       } # for i
     
     
     
