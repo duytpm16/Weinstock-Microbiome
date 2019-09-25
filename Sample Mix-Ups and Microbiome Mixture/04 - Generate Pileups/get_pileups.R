@@ -15,7 +15,7 @@
 #
 #
 #    Output:
-#        1.) Pile-up files for each of the 3 weeks in the MGS_DO_* directory
+#        1.) Pile-up files for each chromsome at each week
 #
 #
 #    Author: Duy Pham
