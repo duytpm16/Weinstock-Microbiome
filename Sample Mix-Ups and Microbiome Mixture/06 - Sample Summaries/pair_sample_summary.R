@@ -25,11 +25,9 @@ save_directory  <- "/home/phamd/Weinstock/"
 
 
 ### Load the corresponding imputed SNPs and SNP info for that chromosome
-load(paste0("/home/phamd/imputed_snps_chr_", chr, ".RData"))
-imp_snps             <- get(paste0('imp_snps_chr', chr))                    # Get imputed snp matrix
-index_snpinfo        <- get(paste0('indexed_snpinfo_chr', chr))             # Get the indexed snp info dataframe
-index_snpinfo$pos_bp <- round(index_snpinfo$pos * 1e6)                      # Make new column of position in bp
-save_directory       <- paste0(home_directory,'week_',week,'/')             # Directory to store output
+load(paste0(snps_directory, "imp_snp_", chr, ".Rdata"))
+snpinfo$pos_bp <- round(snpinfo$pos * 1e6) 
+save_directory <- paste0(save_directory,'week_',week,'/')            
 
 
 
@@ -41,8 +39,12 @@ save_directory       <- paste0(home_directory,'week_',week,'/')             # Di
 
 ### Change directory to where fastq are store and get sample ids
 setwd(fastq_directory)
-sample_num <- sapply(dir(), function(s) unlist(strsplit(s, '_'))[3])
-sample_id  <- paste0('DPDP.DO2.',sample_num,'.F')
+sample_num   <- sapply(dir()[grep('MGS_DO', dir())], function(s) unlist(strsplit(s, '_'))[3])
+sample_exist <- sapply(dir()[grep('MGS_DO', dir())], function(s) dir.exists(paste0(s,'/Week_',week,'/')))
+stopifnot(names(sample_num) == names(sample_exist))
+sample_num   <- sample_num[sample_exist]
+
+sample_id <- paste0('DPDP.DO2.',sample_num,'.F')
 
 
 
@@ -51,8 +53,8 @@ sample_id  <- paste0('DPDP.DO2.',sample_num,'.F')
 
 
 ### Creating object to store results
-sample_results   <- vector("list", length(dir()))
-names(sample_results)   <- sample_id
+pair_results <- vector("list", length(sample_num))
+names(pair_results) <- sample_id
 
                          
 
@@ -67,7 +69,7 @@ for(index in 1:length(sample_num)){
   
     # Get directory name
     sample <- paste0('MGS_DO_', sample_num[index])
-    sample_week_directory <- paste0(fastq_directory, sample, '/Week_', week)
+    sample_week_directory <- paste0(fastq_directory, sample, '/Week_', week,'/bowtie1_run_v2')
   
   
   
@@ -82,22 +84,20 @@ for(index in 1:length(sample_num)){
   
       
       
-       # Read in read counts of one chromosome of one sample. Filter rows where Major and Minor allele count is 0
+       # Read in read counts of one chromosome of one sample 
        sample_read_counts <- readRDS(paste0(sample,'_Week_',week,'_readcounts_chr_',chr,'.rds'))
-       sample_read_counts <- sample_read_counts[!(sample_read_counts$Major_Count == 0 & sample_read_counts$Minor_Count == 0),]
-
   
   
   
     
       
        # Making sure all positions and snp id are the same
-       aligning_pos           <- intersect(sample_read_counts$pos,index_snpinfo$pos_bp)
+       aligning_pos           <- intersect(sample_read_counts$pos, index_snpinfo$pos_bp)
+       
        filtered_index_snpinfo <- index_snpinfo[index_snpinfo$pos_bp %in% aligning_pos,]
        sample_read_counts     <- sample_read_counts[sample_read_counts$pos %in% aligning_pos,]
-       imp_snps_col           <- colnames(imp_snps)[colnames(imp_snps) %in% filtered_index_snpinfo$snp]
-  
-  
+       imp_snps_col           <- colnames(imp_snps)[colnames(imp_snps) %in% filtered_index_snpinfo$snp
+    
        print(length(imp_snps_col))    
     
   
@@ -108,10 +108,11 @@ for(index in 1:length(sample_num)){
       
        # Create object to contain the results for sample pairs
        pair_results[[index]] <- array(0, dim=c(nrow(imp_snps), 3, 3, 2))
-       dimnames(pair_results[[index]]) <- list(rownames(imp_snps), c("AA", "AB", "BB"),
-                                            c("AA", "AB", "BB"), c("A", "B"))
+       dimnames(pair_results[[index]]) <- list(rownames(imp_snps), c("AA", "AB", "BB"), c("AA", "AB", "BB"), c("A", "B"))
   
+                                                    
       
+                                                    
        # If genoprob for sample exist...Samples 513,533,548,591,593,675,703,711,837,838 do not have genotype probabilities
        if(sample_id[index] %in% rownames(imp_snps)){
           g0 <- imp_snps[sample_id[index], imp_snps_col]
@@ -120,11 +121,9 @@ for(index in 1:length(sample_num)){
               g <- imp_snps[i, imp_snps_col]
      
               for(j in 1:3) {
-      
                   for(k in 1:3){
-                  
-                      pair_results[[index]][i, j, k, 1] <- sum(sample_read_counts$Major_Count[!is.na(g0) & g0==j & !is.na(g) & g==k])
-                      pair_results[[index]][i, j, k, 2] <- sum(sample_read_counts$Minor_Count[!is.na(g0) & g0==j & !is.na(g) & g==k])
+                      pair_results[[index]][i, j, k, 1] <- sum(sample_read_counts$n1[!is.na(g0) & g0==j & !is.na(g) & g==k])
+                      pair_results[[index]][i, j, k, 2] <- sum(sample_read_counts$n2[!is.na(g0) & g0==j & !is.na(g) & g==k])
               
                   } # for k
               
