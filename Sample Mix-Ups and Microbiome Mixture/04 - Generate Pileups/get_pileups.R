@@ -31,7 +31,7 @@ library(Rsamtools)
 args = commandArgs(trailingOnly = TRUE)
 start           <- as.numeric(args[1])
 end             <- as.numeric(args[2])
-snp_dir         <- '/projects/churchill-lab/data/Weinstock/Pomp_Benson/fastq/'
+snp_dir         <- '/projects/churchill-lab/data/Weinstock/Pomp_Benson/genotypes/imputed_snps/'
 fastq_directory <- '/projects/churchill-lab/data/Weinstock/Pomp_Benson/fastq/'
 
 
