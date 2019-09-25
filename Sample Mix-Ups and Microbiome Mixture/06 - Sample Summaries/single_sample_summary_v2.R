@@ -9,7 +9,7 @@ options(stringsAsFactors = FALSE)
 args = commandArgs(trailingOnly = TRUE)
 chr  <- args[1]
 week <- args[2]
-snps_directory  <- "/projects/churchill-lab/data/Weinstock/Pomp_Benson/fastq/"
+snps_directory  <- "/projects/churchill-lab/data/Weinstock/Pomp_Benson/genotypes/imputed_snps/"
 fastq_directory <- "/projects/churchill-lab/data/Weinstock/Pomp_Benson/fastq/"
 save_directory  <- "/home/phamd/Weinstock/"
 
