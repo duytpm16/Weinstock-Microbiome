@@ -99,7 +99,8 @@ for(i in start:end){
                
                # Save
                saveRDS(chr_pileup, file = paste0(week_directory, '/', sample, '_', week, '_pileup_chr_',chromosome,'.rds'))
-          }# For chromosome
+          
+	 }# For chromosome
       } # For week
    } # If sample exists
 } # For i
