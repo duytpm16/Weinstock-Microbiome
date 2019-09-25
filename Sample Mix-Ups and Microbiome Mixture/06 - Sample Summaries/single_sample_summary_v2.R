@@ -42,7 +42,7 @@ sample_exist <- sapply(dir()[grep('MGS_DO', dir())], function(s) dir.exists(past
 stopifnot(names(sample_num) == names(sample_exist))
 sample_num   <- sample_num[sample_exist]
 
-sample_id <- paste0('DO2.',sample_num)
+sample_id <- paste0('DPDP.DO2.',sample_num,'.F')
 
 
 
