@@ -47,7 +47,7 @@ do
        SAMPLE_WEEK_SINGLETON_DIR="${WEEK_DIR}Singletons/"
        echo $SAMPLE_WEEK_SINGLETON_DIR 
        cd $SAMPLE_WEEK_SINGLETON_DIR
-       gunzip *.3
+       gzip *.3
     fi
 
   done; # for j
