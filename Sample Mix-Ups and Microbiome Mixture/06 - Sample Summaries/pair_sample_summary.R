@@ -8,15 +8,12 @@ options(stringsAsFactors = FALSE)
 
 
 ### Command line arguments / variables to change
-#     1.) home_directory : directory where my imputed snps .RData file are stored + where I want to save output of this script
-#     2.) fastq_directory: directory where each sub-directory is a DO sample and contains the fastq, pileup, and read counts
-#     3.) chr            : chromosome readcounts to get
-#     4.) week           : which week to get readcounts from
 args = commandArgs(trailingOnly = TRUE)
-home_directory  <- '/home/phamd/'
-fastq_directory <- "/projects/churchill-lab/data/Weinstock/Pomp_Benson/host_fastq/"
-chr             <- args[1]
-week            <- args[2]
+chr  <- args[1]
+week <- args[2]
+snps_directory  <- "/projects/churchill-lab/data/Weinstock/Pomp_Benson/fastq/"
+fastq_directory <- "/projects/churchill-lab/data/Weinstock/Pomp_Benson/fastq/"
+save_directory  <- "/home/phamd/Weinstock/"
 
 
 
@@ -44,8 +41,8 @@ save_directory       <- paste0(home_directory,'week_',week,'/')             # Di
 
 ### Change directory to where fastq are store and get sample ids
 setwd(fastq_directory)
-sample_num     <- sapply(dir(), function(s) unlist(strsplit(s, '_'))[3])
-sample_id      <- paste0('DPDP.DO2.',sample_num,'.F')
+sample_num <- sapply(dir(), function(s) unlist(strsplit(s, '_'))[3])
+sample_id  <- paste0('DO2.',sample_num)
 
 
 
