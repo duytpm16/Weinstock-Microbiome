@@ -119,12 +119,12 @@ for(index in 1:length(sample_num)){
     
     
     for(i in 1:nrow(imp_snps)) {
-      g <- imp_snps[i, imp_snps_col]
-      for(j in 1:3) {
-        
-        sample_results[[index]][i,j,1] <- sum(sample_read_counts$n1[!is.na(g) & g==j])
-        sample_results[[index]][i,j,2] <- sum(sample_read_counts$n2[!is.na(g) & g==j])
-      } # for j
+        g <- imp_snps[i, imp_snps_col]
+      
+        for(j in 1:3) {
+            sample_results[[index]][i,j,1] <- sum(sample_read_counts$n1[!is.na(g) & g==j])
+            sample_results[[index]][i,j,2] <- sum(sample_read_counts$n2[!is.na(g) & g==j])
+        } # for j
     } # for i
     
     
