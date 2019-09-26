@@ -92,12 +92,18 @@ for(index in 1:length(sample_num)){
     
       
        # Making sure all positions and snp id are the same
+       filtered_snpinfo <- snpinfo[snpinfo$snp_id %in% colnames(imp_snps),]
        aligning_pos <- match(sample_read_counts$pos, snpinfo$pos_bp)
        stopifnot(!any(is.na(aligning_pos)))
 
-       filtered_snpinfo <- snpinfo[aligning_pos,]
-       imp_snps_col     <- colnames(imp_snps)[colnames(imp_snps) %in% filtered_snpinfo$snp_id]
+
+       imp_snps_col <- filtered_snpinfo$snp_id[aligning_pos]
        print(length(imp_snps_col))
+
+       stopifnot(length(imp_snps_col) == nrow(sample_read_counts))
+       stopifnot(all(filtered_snpinfo$pos_bp[aligning_pos] == sample_read_counts$pos))
+
+
     
   
       
