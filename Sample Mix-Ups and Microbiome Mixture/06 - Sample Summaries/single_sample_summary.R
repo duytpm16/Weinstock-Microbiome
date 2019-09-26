@@ -42,7 +42,7 @@ sample_exist <- sapply(dir()[grep('MGS_DO', dir())], function(s) dir.exists(past
 stopifnot(names(sample_num) == names(sample_exist))
 sample_num   <- sample_num[sample_exist]
 
-sample_id <- paste0('DPDP.DO2.',sample_num,'.F')
+sample_id <- paste0('DP.DO2.',sample_num,'.F')
 
 
 
@@ -96,11 +96,11 @@ for(index in 1:length(sample_num)){
     
     
        # Making sure all positions and snp id are the same
-       aligning_pos           <- intersect(sample_read_counts$pos, index_snpinfo$pos_bp)
+       aligning_pos <- intersect(sample_read_counts$pos, index_snpinfo$pos_bp)
     
-       filtered_index_snpinfo <- index_snpinfo[index_snpinfo$pos_bp %in% aligning_pos,]
-       sample_read_counts     <- sample_read_counts[sample_read_counts$pos %in% aligning_pos,]
-       imp_snps_col           <- colnames(imp_snps)[colnames(imp_snps) %in% filtered_index_snpinfo$snp]
+       filtered_snpinfo   <- snpinfo[snpinfo$pos_bp %in% aligning_pos,]
+       sample_read_counts <- sample_read_counts[sample_read_counts$pos %in% aligning_pos,]
+       imp_snps_col       <- colnames(imp_snps)[colnames(imp_snps) %in% filtered_snpinfo$snp_id]
      
        print(length(imp_snps_col))
     
@@ -121,8 +121,10 @@ for(index in 1:length(sample_num)){
            g <- imp_snps[i, imp_snps_col]
         
            for(j in 1:3) {
+             
                sample_results[[index]][i,j,1] <- sum(sample_read_counts$n1[!is.na(g) & g==j])
                sample_results[[index]][i,j,2] <- sum(sample_read_counts$n2[!is.na(g) & g==j])
+             
            } # for j
        } # for i
     
