@@ -96,12 +96,11 @@ for(index in 1:length(sample_num)){
     
     
        # Making sure all positions and snp id are the same
-       aligning_pos <- intersect(sample_read_counts$pos, snpinfo$pos_bp)
-    
-       filtered_snpinfo   <- snpinfo[snpinfo$pos_bp %in% aligning_pos,]
-       sample_read_counts <- sample_read_counts[sample_read_counts$pos %in% aligning_pos,]
+       aligning_pos <- match(sample_read_counts$pos, snpinfo$pos_bp)
+       stopifnot(!any(is.na(aligning_pos)))
+      
+       filtered_snpinfo   <- snpinfo[aligning_pos,]
        imp_snps_col       <- colnames(imp_snps)[colnames(imp_snps) %in% filtered_snpinfo$snp_id]
-     
        print(length(imp_snps_col))
     
     
