@@ -99,8 +99,8 @@ for(index in 1:length(sample_num)){
        aligning_pos <- match(sample_read_counts$pos, snpinfo$pos_bp)
        stopifnot(!any(is.na(aligning_pos)))
       
-       filtered_snpinfo   <- snpinfo[aligning_pos,]
-       imp_snps_col       <- colnames(imp_snps)[colnames(imp_snps) %in% filtered_snpinfo$snp_id]
+       filtered_snpinfo <- snpinfo[aligning_pos,]
+       imp_snps_col     <- colnames(imp_snps)[colnames(imp_snps) %in% filtered_snpinfo$snp_id]
        print(length(imp_snps_col))
     
     
