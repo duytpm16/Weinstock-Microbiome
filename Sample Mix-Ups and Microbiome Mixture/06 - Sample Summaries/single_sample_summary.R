@@ -96,7 +96,7 @@ for(index in 1:length(sample_num)){
     
     
        # Making sure all positions and snp id are the same
-       aligning_pos <- intersect(sample_read_counts$pos, index_snpinfo$pos_bp)
+       aligning_pos <- intersect(sample_read_counts$pos, snpinfo$pos_bp)
     
        filtered_snpinfo   <- snpinfo[snpinfo$pos_bp %in% aligning_pos,]
        sample_read_counts <- sample_read_counts[sample_read_counts$pos %in% aligning_pos,]
