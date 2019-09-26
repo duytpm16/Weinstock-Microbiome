@@ -70,7 +70,7 @@ for(index in 1:length(sample_num)){
   
     # Get directory name
     sample <- paste0('MGS_DO_', sample_num[index])
-    sample_week_directory <- paste0(fastq_directory, sample, '/Week_', week,'/bowtie1_run_v2')
+    sample_week_directory <- paste0(fastq_directory, sample, '/Week_', week,'/bowtie1_run')
   
   
   
