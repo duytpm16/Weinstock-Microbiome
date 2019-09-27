@@ -29,6 +29,6 @@ w24 <- t(sapply(results_wk24, f, rownames(results_wk24[[1]])))
              
              
 ### Save
-saveRDS(wk6,  file="single_results_prop_mismatch_w6.rds")
-saveRDS(wk17, file="single_results_prop_mismatch_w17.rds")
-saveRDS(wk24, file="single_results_prop_mismatch_w24.rds")
+saveRDS(w6,  file="single_results_prop_mismatch_w6.rds")
+saveRDS(w17, file="single_results_prop_mismatch_w17.rds")
+saveRDS(w24, file="single_results_prop_mismatch_w24.rds")
