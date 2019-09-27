@@ -8,8 +8,9 @@ single_results_wk24_all_v2 <- readRDS("~/Desktop/Weinstock Microbiome/Mixups/sam
 
 # calculate proportion of mismatches at homozygous loci
 f <- function(a, rn ) {
-  x <- apply(a, 1, function(b) (b[1,2] + b[3,1]) / sum(b[1,] + b[3,]))
-  x[rn] }
+   x <- apply(a, 1, function(b) (b[1,2] + b[3,1]) / sum(b[1,] + b[3,]))
+   x[rn] 
+}
 
 
 
