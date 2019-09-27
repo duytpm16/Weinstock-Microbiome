@@ -1,25 +1,34 @@
-samp_wk6  <- readRDS('Weinstock Microbiome/Mixups/sample_results_wk6_all_v2.rds')
-samp_wk17 <- readRDS('Weinstock Microbiome/Mixups/sample_results_wk17_all_v2.rds')
-samp_wk24 <- readRDS('Weinstock Microbiome/Mixups/sample_results_wk24_all_v2.rds')
+### Load in combined results
+results_wk6  <- readRDS("sample_results_week_6_all.rds")
+results_wk17 <- readRDS("sample_results_week_17_all.rds")
+results_wk24 <- readRDS("sample_results_week_24_all.rds")
 
 
 
-# calculate proportion of mismatches at homozygous loci
-f <- function(a, rn) {
+
+
+
+
+### Calculate proportion of mismatches at homozygous loci (Karl's code)
+f <- function(a, rn ) {
   x <- apply(a, 1, function(b) (b[1,2] + b[3,1]) / sum(b[1,] + b[3,]))
-  x[rn]
+  x[rn] 
 }
 
 
-
-samp_prop_mis_wk6  <- t(sapply(samp_wk6,  f, rownames(samp_wk6[[1]])))
-samp_prop_mis_wk17 <- t(sapply(samp_wk17, f, rownames(samp_wk17[[1]])))
-samp_prop_mis_wk24 <- t(sapply(samp_wk24, f, rownames(samp_wk24[[1]])))
-
+w6  <- t(sapply(results_wk6,  f, rownames(results_wk6[[1]])))
+w17 <- t(sapply(results_wk17, f, rownames(results_wk17[[1]])))
+w24 <- t(sapply(results_wk24, f, rownames(results_wk24[[1]])))
 
 
-
-
-saveRDS(samp_prop_mis_wk6,  file="Weinstock Microbiome/Mixups/single_results_prop_mismatch_wk6.rds")
-saveRDS(samp_prop_mis_wk17, file="Weinstock Microbiome/Mixups/single_results_prop_mismatch_wk17.rds")
-saveRDS(samp_prop_mis_wk24, file="Weinstock Microbiome/Mixups/single_results_prop_mismatch_wk24.rds")
+             
+             
+             
+             
+             
+             
+             
+### Save
+saveRDS(wk6,  file="single_results_prop_mismatch_w6.rds")
+saveRDS(wk17, file="single_results_prop_mismatch_w17.rds")
+saveRDS(wk24, file="single_results_prop_mismatch_w24.rds")
