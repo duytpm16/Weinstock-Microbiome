@@ -67,5 +67,5 @@ for(chr in 1:19){
 }
 
 
-saveRDS(combined_results, file=paste0(pattern,"_results_all.rds"))
+saveRDS(combined_results, file=paste0(type,"_results_all.rds"))
 
