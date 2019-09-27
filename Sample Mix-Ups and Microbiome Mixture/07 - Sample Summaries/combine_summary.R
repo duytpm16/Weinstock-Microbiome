@@ -1,6 +1,10 @@
+### Command line arguements / Variables to change
+#   1.) results_dir - path to were the pair_sample_summary.R or single_sample_summary.R results are stored
+#   2.) type - paired or sample
+#   3.) week - 6, 17, or 24
 args = commandArgs(trailingOnly = TRUE)
 results_dir <- args[1]
-pattern     <- args[2]
+type        <- args[2]
 week        <- args[3]
 
 
