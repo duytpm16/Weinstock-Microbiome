@@ -24,7 +24,7 @@ combined_results <- NULL
 for(chr in 1:19){
     
     # Get file name
-    results_file <- paste0(pattern, '_results_week_', week, '_chr_', chr, ".rds")
+    results_file <- paste0(type, '_results_week_', week, '_chr_', chr, ".rds")
     
     print(results_file)
     
