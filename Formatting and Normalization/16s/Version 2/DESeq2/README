@@ -1,0 +1,5 @@
+QTL mapping with Hoan's suggestion
+
+Filter OTU with <= 5% abundance across samples
+
+I will try DESeq2 for normalization
