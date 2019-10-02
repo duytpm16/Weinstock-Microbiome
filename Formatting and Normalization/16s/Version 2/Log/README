@@ -1,0 +1,9 @@
+QTL mapping with Hoan's suggesting
+
+
+Filter taxa with <= 5% abundance across samples
+Transform OTU counts to relative abundance (count / total sum)
+Log transform
+
+
+I rankZ's after
